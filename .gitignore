@@ -1,0 +1,13 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Flask instance folder (local config & DB)
+instance/
+*.db
+
+# Editor files
+.vscode/
+*.swp
+.DS_Store
