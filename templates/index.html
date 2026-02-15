@@ -55,21 +55,35 @@
     <h2>Transactions</h2>
     <div class="transaction-container">
         {% if transactions %}
-            <ul class="transaction-list">
-                {% for t in transactions %}
-                    <li class="transaction-item">
-                        <span class="tx-date">{{ t.date }}</span>
-                        <span class="tx-category">{{ t.category.name }}</span>
-                        <span class="tx-description">{{ t.description }}</span>
-                        <span class="tx-amount">{{ t.amount }}</span>
-                        <span class="tx-type">{{ t.type }}</span>
-                        <form method="POST" action="/delete/{{ t.id }}" style="display:inline;">
-                            <button type="submit">Delete</button>
-                        </form>
-                        <a href="/edit/{{ t.id }}"><button>Edit</button></a>
-                    </li>
-                {% endfor %}
-            </ul>
+            <table class="transaction-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Category</th>
+                        <th>Description</th>
+                        <th>Income</th>
+                        <th>Expense</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for t in transactions %}
+                    <tr>
+                        <td>{{ t.date.strftime('%Y-%m-%d') }}</td>
+                        <td>{{ t.category.name }}</td>
+                        <td>{{ t.description }}</td>
+                        <td class="amount income">{{ '%.2f'|format(t.amount) if t.type == 'Income' else '' }}</td>
+                        <td class="amount expense">{{ '%.2f'|format(t.amount) if t.type == 'Expense' else '' }}</td>
+                        <td>
+                            <a href="{{ url_for('edit_transaction', tx_id=t.id) }}" class="form-button">Edit</a>
+                            <form method="POST" action="{{ url_for('delete_transaction', tx_id=t.id) }}" style="display:inline;">
+                                <button type="submit" class="form-button delete-button">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         {% else %}
             <p>No transactions found.</p>
         {% endif %}
