@@ -46,5 +46,19 @@ def delete_transaction(tx_id):
         db.session.commit()
     return redirect(url_for('index'))
 
+@app.route('/edit/<int:tx_id>', methods=['GET', 'POST'])
+def edit_transaction(tx_id):
+    tx = Transaction.query.get_or_404(tx_id)
+
+    if request.method == 'POST':
+        tx.date = request.form['date']
+        tx.category = request.form['category']
+        tx.description = request.form['description']
+        tx.amount = float(request.form['amount'])
+        db.session.commit()
+        return redirect(url_for('index'))
+    
+    return render_template('edit.html', transaction=tx)
+
 if __name__ == "__main__":
     app.run(debug=True)
