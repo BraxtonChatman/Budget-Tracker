@@ -14,9 +14,16 @@ with app.app_context():
 
 @app.route('/')
 def index():
-    transactions = Transaction.query.all()
+    category_filter = request.args.get('category')
+    if category_filter:
+        transactions = Transaction.query.filter_by(category=category_filter).all()
+    else:
+        transactions = Transaction.query.all()
+        
     total = sum(t.amount for t in transactions)
-    return render_template('index.html', transactions=transactions, total=total)
+    categories = [c[0] for c in db.session.query(Transaction.category).distinct().all()]
+
+    return render_template('index.html', transactions=transactions, total=total, categories=categories, current_filter=category_filter)
 
 @app.route('/add', methods=['POST'])
 def add_transaction():
