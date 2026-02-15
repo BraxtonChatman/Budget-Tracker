@@ -43,7 +43,7 @@ def index():
 # --- ADD TRANSACTION ---
 @app.route('/add', methods=['POST'])
 def add_transaction():
-    errors, date, category, description, amount = validate_transaction_form(request.form)
+    errors, date, category, description, amount, type = validate_transaction_form(request.form)
 
     if errors:
         for e in errors:
@@ -54,7 +54,8 @@ def add_transaction():
         date=date, 
         category_id=category.id, 
         description=description, 
-        amount=amount
+        amount=amount,
+        type=type
     )
     db.session.add(new_transaction)
     db.session.commit()
@@ -68,7 +69,7 @@ def edit_transaction(tx_id):
     tx = Transaction.query.get_or_404(tx_id)
 
     if request.method == 'POST':
-        errors, date, category, description, amount = validate_transaction_form(request.form)
+        errors, date, category, description, amount, type = validate_transaction_form(request.form)
         if errors:
             for e in errors:
                 flash(e, 'error')
@@ -78,6 +79,7 @@ def edit_transaction(tx_id):
         tx.category_id = category.id
         tx.description = description
         tx.amount = amount
+        tx.type = type
         
         db.session.commit()
         flash("Transaction updated successfully.", 'success')
@@ -103,6 +105,7 @@ def validate_transaction_form(form):
     category_id_str = form.get('category')
     description = form.get('description', '').strip()
     amount_str = form.get('amount')
+    type_str = form.get('type')
 
     # Validation
     errors = []
@@ -142,11 +145,18 @@ def validate_transaction_form(form):
         except (TypeError, ValueError):
             errors.append("Amount must be a valid number.")
 
+    # Validate type
+    type = None
+    if type_str not in ['Income', 'Expense']:
+        errors.append("Type must be either 'Income' or 'Expense'.")
+    else:
+        type = type_str
+
     # Default description if empty
     if not description:
         description = "(No description)"
     
-    return errors, date, category, description, amount
+    return errors, date, category, description, amount, type
 
 
 if __name__ == "__main__":

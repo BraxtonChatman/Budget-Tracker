@@ -1,18 +1,18 @@
 # Budget Tracker
-- [x] Flask app running
-- [x] SQLite database
-- [x] SQLAlchemy models
-- [x] Add / Edit / Delete transactions
-- [x] Category filtering
-- [x] Basic total calculation
-- [x] Initial seed categories
+- [X] Flask app running
+- [X] SQLite database
+- [X] SQLAlchemy models
+- [X] Add / Edit / Delete transactions
+- [X] Category filtering
+- [X] Basic total calculation
+- [X] Initial seed categories
 
 ---
 
 ## Now (Current Focus)
-- [ ] Polish date and amount handling
+- [X] Polish date and amount handling
     * ~~Ensure proper validation: prevent negative amounts, invalid dates, empty descriptions~~
-    * Handle empty states gracefully (no transactions, no categories)
+    * ~~Handle empty states gracefully (no transactions)~~
 - [ ] Add income vs expense distinction
 - [ ] Enhance UI/UX
     * Make forms and transaction lists more visually appealing

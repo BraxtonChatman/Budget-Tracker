@@ -13,7 +13,8 @@ class Transaction(db.Model):
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'), nullable=False)
     description = db.Column(db.String(200), nullable=False)
     amount = db.Column(db.Float, nullable=False)
+    type = db.Column(db.String(10), nullable=False)  # 'income' or 'expense'
 
     def __repr__(self):
-        return f"<Transaction {self.category.name} {self.amount}>"
+        return f"<Transaction {self.category.name} {self.amount} {self.type}>"
     
