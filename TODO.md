@@ -10,9 +10,10 @@
 ---
 
 ## Now (Current Focus)
-- [ ] Polish date handling
-    * Ensure proper validation: prevent negative amounts, invalid dates, empty descriptions
+- [ ] Polish date and amount handling
+    * ~~Ensure proper validation: prevent negative amounts, invalid dates, empty descriptions~~
     * Handle empty states gracefully (no transactions, no categories)
+- [ ] Add income vs expense distinction
 - [ ] Enhance UI/UX
     * Make forms and transaction lists more visually appealing
     * Add confirmation modals for delete actions
@@ -30,7 +31,6 @@
 
 ## Next (Near-Term Improvements)
 - [ ] Add monthly total view
-- [ ] Add income vs expense distinction
 - [ ] Add running balance calculation
 - [ ] Add CSV export
 - [ ] Authentication / Users
