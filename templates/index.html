@@ -20,7 +20,12 @@
     <h2>Transactions</h2>
     <ul>
         {% for t in transactions %}
-            <li>{{t.date}} | {{t.category}} | {{t.description}} | {{t.amount}}</li>
+            <li>
+                {{t.date}} | {{t.category}} | {{t.description}} | {{t.amount}}
+                <form method="POST" action="/delete/{{ t.id }}" style="display:inline;">
+                    <button type="submit">Delete</button>
+                </form>
+            </li>
         {% endfor %}
     </ul>
 </body>

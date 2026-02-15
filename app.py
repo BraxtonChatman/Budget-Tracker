@@ -31,5 +31,13 @@ def add_transaction():
 
     return redirect(url_for('index'))
 
+@app.route('/delete/<int:tx_id>', methods=['POST'])
+def delete_transaction(tx_id):
+    tx = Transaction.query.get(tx_id)
+    if tx:
+        db.session.delete(tx)
+        db.session.commit()
+    return redirect(url_for('index'))
+
 if __name__ == "__main__":
     app.run(debug=True)
