@@ -25,7 +25,7 @@
     <div class="form-container">
         <form method="POST" action="/add">
             <input type="date" name="date" class="form-input" required>
-            <select name="category" required>
+            <select name="category" class="form-input" required>
                 {% for c in categories %}
                     <option value="{{ c.id }}">{{ c.name }}</option>
                 {% endfor %}
