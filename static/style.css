@@ -1,0 +1,84 @@
+
+.transaction-container {
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 20px;
+    background-color: #f9f9f9;
+}
+
+.transaction-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.transaction-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.tx-date {
+    width: 100px;
+}
+
+.tx-category {
+    width: 100px;
+}
+
+.tx-description {
+    width: 250px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis
+}
+
+.tx-amount {
+    width: 80px;
+    text-align: right;
+}
+
+.transaction-item button {
+    margin-left: 5px
+}
+
+.transaction-item:hover {
+    background-color: #e0f7fa;
+}
+
+
+.form-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+    align-items: center;
+}
+
+.form-input {
+    padding: 5px 8px;
+    font-size: 14px;
+    width: 150px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.form-input[name="amount"] {
+    width: 100px;
+}
+
+.form-button {
+    padding: 5px 12px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+}
+
+.form-button:hover {
+    background-color: #45a049;
+}
