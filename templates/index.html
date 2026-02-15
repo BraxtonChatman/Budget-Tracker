@@ -50,21 +50,25 @@
 
     <h2>Transactions</h2>
     <div class="transaction-container">
-        <ul class="transaction-list">
-            {% for t in transactions %}
-                <li class="transaction-item">
-                    <span class="tx-date">{{ t.date }}</span>
-                    <span class="tx-category">{{ t.category.name }}</span>
-                    <span class="tx-description">{{ t.description }}</span>
-                    <span class="tx-amount">{{ t.amount }}</span>
+        {% if transactions %}
+            <ul class="transaction-list">
+                {% for t in transactions %}
+                    <li class="transaction-item">
+                        <span class="tx-date">{{ t.date }}</span>
+                        <span class="tx-category">{{ t.category.name }}</span>
+                        <span class="tx-description">{{ t.description }}</span>
+                        <span class="tx-amount">{{ t.amount }}</span>
 
-                    <form method="POST" action="/delete/{{ t.id }}" style="display:inline;">
-                        <button type="submit">Delete</button>
-                    </form>
-                    <a href="/edit/{{ t.id }}"><button>Edit</button></a>
-                </li>
-            {% endfor %}
-        </ul>
+                        <form method="POST" action="/delete/{{ t.id }}" style="display:inline;">
+                            <button type="submit">Delete</button>
+                        </form>
+                        <a href="/edit/{{ t.id }}"><button>Edit</button></a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No transactions found.</p>
+        {% endif %}
     </div>
 </body>
 </html>
