@@ -11,7 +11,7 @@
 
     <div class="form-container">
         <form method="POST" action="{{ url_for('edit_transaction', tx_id=transaction.id) }}">
-            <input type="date" name="date" class="form-input" value="{{ transaction.date }}" required>
+            <input type="date" name="date" class="form-input" value="{{ transaction.date.strftime('%Y-%m-%d') }}" required>
             <select name="category" class="form-input" required>
                 {% for c in categories %}
                     <option value="{{ c.id }}" {% if transaction.category_id == c.id %}selected{% endif %}>
@@ -25,7 +25,7 @@
                 <option value="Expense" {% if transaction.type == 'Expense' %}selected{% endif %}>Expense</option>
                 <option value="Income" {% if transaction.type == 'Income' %}selected{% endif %}>Income</option>
             </select>
-            <button type="submit" class="form-button">Update Transaction</button>
+            <button type="submit" class="form-button add-button">Update Transaction</button>
         </form>
     </div>
 
