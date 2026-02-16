@@ -103,7 +103,25 @@ def delete_transaction(tx_id):
     return redirect(url_for('index'))
 
 
-# --- Input Validation  Helper Function ---
+# --- TEMPLATE FILTERS ---
+@app.template_filter()
+def format_currency(value, show_sign=False):
+    try:
+        value = float(value)
+    except (TypeError, ValueError):
+        return "$0.00"
+
+    formatted = "${:,.2f}".format(abs(value))
+
+    if show_sign:
+        if value < 0:
+            return f"-{formatted}"
+        else:
+            return formatted
+    return formatted
+
+
+# --- INPUT VALIDATION HELPER ---
 def validate_transaction_form(form):
     date_str = form.get('date')
     category_id_str = form.get('category')

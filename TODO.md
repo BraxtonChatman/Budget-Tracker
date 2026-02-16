@@ -13,8 +13,8 @@
 - [ ] Polish date and amount handling
     * ~~Ensure proper validation: prevent negative amounts, invalid dates, empty descriptions~~
     * ~~Handle empty states gracefully (no transactions)~~
-    * Ensure `edit.html` date input uses `transaction.date.strftime('%Y-%m-%d')`
-    * Display amounts as currency (`$12.34`) in templates
+    * ~~Ensure `edit.html` date input uses `transaction.date.strftime('%Y-%m-%d')`~~
+    * ~~Display amounts as currency (`$12.34`) in templates~~
     * Trim description whitespace before defaulting to `(No description)`
 - [ ] Add income vs expense distinction
     * Optional: use SQLAlchemy Enum for `type` field
