@@ -77,8 +77,8 @@
                         <td>{{ t.date.strftime('%Y-%m-%d') }}</td>
                         <td>{{ t.category.name }}</td>
                         <td>{{ t.description }}</td>
-                        <td class="amount income">{{ t.amount|format_currency if t.type == 'Income' else '' }}</td>
-                        <td class="amount expense">{{ t.amount|format_currency if t.type == 'Expense' else '' }}</td>
+                        <td class="amount income">{{ t.amount|format_currency if t.type.value == 'Income' else '' }}</td>
+                        <td class="amount expense">{{ t.amount|format_currency if t.type.value == 'Expense' else '' }}</td>
                         <td>
                             <a href="{{ url_for('edit_transaction', tx_id=t.id) }}" class="form-button edit-button">Edit</a>
                             <form method="POST" action="{{ url_for('delete_transaction', tx_id=t.id) }}" style="display:inline;" onsubmit="return confirmDelete();">

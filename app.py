@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
-from models import Category, db, Transaction
+from models import Category, db, Transaction, TransactionType
 from datetime import datetime
 import os
 
@@ -28,8 +28,8 @@ def index():
     else:
         transactions = Transaction.query.all()
         
-    total_income = sum(t.amount for t in transactions if t.type == 'Income')
-    total_expense = sum(t.amount for t in transactions if t.type == 'Expense')
+    total_income = sum(t.amount for t in transactions if t.type.value == 'Income')
+    total_expense = sum(t.amount for t in transactions if t.type.value == 'Expense')
     net_total = total_income - total_expense
     categories = Category.query.all()
 
@@ -172,7 +172,7 @@ def validate_transaction_form(form):
     if type_str not in ['Income', 'Expense']:
         errors.append("Type must be either 'Income' or 'Expense'.")
     else:
-        type = type_str
+        type = TransactionType(type_str)
 
     # Default description if empty
     if not description:
