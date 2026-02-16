@@ -141,3 +141,21 @@
 .transaction-table tbody tr:hover {
     background-color: #e0f7fa;
 }
+
+.transaction-table tfoot {
+    background-color: #f8f8f8;
+}
+
+.totals-row td {
+    border-top: 2px solid #000;
+}
+
+.net-row td {
+    border-top: 1px solid #999;
+}
+
+.transaction-table tfoot td {
+    padding: 8px;
+    text-align: right;
+}
+

@@ -28,13 +28,17 @@ def index():
     else:
         transactions = Transaction.query.all()
         
-    total = sum(t.amount for t in transactions)
+    total_income = sum(t.amount for t in transactions if t.type == 'Income')
+    total_expense = sum(t.amount for t in transactions if t.type == 'Expense')
+    net_total = total_income - total_expense
     categories = Category.query.all()
 
     return render_template(
         'index.html', 
         transactions=transactions, 
-        total=total, 
+        total_income=total_income,
+        total_expense=total_expense,
+        net_total=net_total,
         categories=categories, 
         current_filter=int(category_filter) if category_filter else None
     )

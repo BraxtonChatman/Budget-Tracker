@@ -19,7 +19,12 @@
         {% endif %}
     {% endwith %}
 
-    <h2>Total: {{ total }}</h2>
+    <h2>Totals</h2>
+    <p>
+        Income: <strong>{{ '%.2f'|format(total_income) }}</strong> |
+        Expense: <strong>{{ '%.2f'|format(total_expense) }}</strong> |
+        Net Total: <strong>{{ '%.2f'|format(net_total) }}</strong
+    </p>
 
     <h2>Add Transaction</h2>
     <div class="form-container">
@@ -83,6 +88,20 @@
                     </tr>
                     {% endfor %}
                 </tbody>
+                <tfoot>
+                    <tr class="net-row">
+                        <td colspan="3" style="text-align:left;"><strong>Net Total:</strong></td>
+                        {% if net_total >= 0 %}
+                            <td><strong>{{ '%.2f'|format(net_total) }}</strong></td>
+                            <td></td>  
+                        {% else %}
+                            <td></td>  
+                            <td><strong>{{ '-%.2f'|format(net_total | abs) }}</strong></td>
+                        {% endif %}
+
+                        <td></td>
+                    </tr>
+                </tfoot>
             </table>
         {% else %}
             <p>No transactions found.</p>
