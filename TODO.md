@@ -13,7 +13,7 @@
 - [X] Polish date and amount handling
     * ~~Ensure proper validation: prevent negative amounts, invalid dates, empty descriptions~~
     * ~~Handle empty states gracefully (no transactions)~~
-- [ ] Add income vs expense distinction
+- [X] Add income vs expense distinction
 - [ ] Enhance UI/UX
     * Make forms and transaction lists more visually appealing
     * Add confirmation modals for delete actions
