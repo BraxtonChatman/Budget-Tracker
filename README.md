@@ -1,6 +1,6 @@
 # Budget-Tracker
 
-**Budget-Tracker** is a web application for managing personal finances. It allows users to track income and expenses, categorize transactions, and view overall totals and net balances. Built with **Flask** and **SQLAlchemy**, this project demonstrates full-stack web development skills and the ability to structure a maintainable Python web application.
+**Budget-Tracker** is a full-stack web application that helps users gain control of their personal finances by tracking income, expenses, and net balances in a simple, intuitive interface. Built with **Flask** and **SQLAlchemy**, this project demonstrates practical web development skills, database modeling, and maintainable Python application design.
 
 ## Demo
 
@@ -91,7 +91,7 @@
 - **ORM relationships** using SQLAlchemy for categories and transactions.  
 - Input validation for dates, amounts, and transaction types.  
 - Flash messages provide user feedback on form submissions.  
-- CSS Flexbox for responsive layout and styled transaction table.  
+- **CSS Flexbox** for responsive layout and styled transaction table.  
 - Designed with scalability in mind, including clear project structure and separation of concerns.
 
 ## Future Improvements
