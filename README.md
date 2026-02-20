@@ -4,11 +4,9 @@
 
 ## Demo
 
-*(Optional: Add a screenshot or GIF of your app here)*  
-![Screenshot](link-to-screenshot.png)
+Deployed on Render: [https://budget-tracker-fko1.onrender.com/](https://budget-tracker-fko1.onrender.com/)
 
-*(Optional: Live demo if deployed)*  
-[Live Demo](https://your-app-url.com)
+![Screenshot](./images/demo-main.png)
 
 ## Features
 
