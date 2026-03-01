@@ -7,7 +7,6 @@ import os
 
 app = Flask(__name__, instance_relative_config=True)
 
-os.makedirs(app.instance_path, exist_ok=True)
 db_path = os.path.join(app.instance_path, 'budget.db')
 
 app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}' 
