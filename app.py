@@ -87,12 +87,41 @@ def logout():
 @app.route('/')
 @login_required
 def index():
-    category_filter = request.args.get('category')
+    # Get filters
+    category_filter = request.args.get('category', type=int)
+    start_date_str = request.args.get('start_date')
+    end_date_str = request.args.get('end_date')
+    sort_by = request.args.get('sort_by', 'date')
+
+    # Initial query
+    query = Transaction.query.filter_by(user_id=current_user.id)
+
+    # Apply filters
     if category_filter:
-        transactions = Transaction.query.filter_by(category_id=int(category_filter), user_id=current_user.id).all()
-    else:
-        transactions = Transaction.query.filter_by(user_id=current_user.id)
-        
+        query = query.filter_by(category_id=int(category_filter))
+    if start_date_str:
+        try:
+            start_date = datetime.strptime(start_date_str, '%Y-%m-%d').date()
+            query = query.filter(Transaction.date >= start_date)
+        except:
+            flash('Invalid start date', 'error')
+    if end_date_str:
+        try:
+            end_date = datetime.strptime(end_date_str, '%Y-%m-%d').date()
+            query.filter(Transaction.date <= end_date)
+        except:
+            flash('Invalid end date', 'error')
+
+    # Apply sorting
+    if sort_by == 'date':
+        query = query.order_by(Transaction.date.desc())
+    elif sort_by == 'amount':
+        query = query.order_by(Transaction.amount.desc())
+    elif sort_by == 'type':
+        query = query.order_by(Transaction.type) 
+   
+    transactions = query.all()
+
     total_income = sum(t.amount for t in transactions if t.type.value == 'Income')
     total_expense = sum(t.amount for t in transactions if t.type.value == 'Expense')
     net_total = total_income - total_expense
