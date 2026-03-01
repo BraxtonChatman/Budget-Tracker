@@ -131,7 +131,7 @@ def add_transaction():
     db.session.add(new_transaction)
     db.session.commit()
     flash("Transaction added successfully.", 'success')
-    return redirect(url_for('index'))
+    return redirect(url_for('index', category=request.args.get('category')))
 
 
 # --- EDIT TRANSACTION ---
@@ -169,7 +169,7 @@ def delete_transaction(tx_id):
     if tx:
         db.session.delete(tx)
         db.session.commit()
-    return redirect(url_for('index'))
+    return redirect(url_for('index', category=request.args.get('category')))
 
 
 # --- TEMPLATE FILTERS ---

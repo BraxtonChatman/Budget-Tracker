@@ -32,7 +32,7 @@
 
     <h2>Add Transaction</h2>
     <div class="form-container">
-        <form method="POST" action="/add">
+        <form method="POST" action="{{ url_for('add_transaction', category=current_filter) }}">
             <input type="date" name="date" class="form-input" required>
             <select name="category" class="form-input" required>
                 {% for c in categories %}
@@ -85,7 +85,7 @@
                         <td class="amount expense">{{ t.amount|format_currency if t.type.value == 'Expense' else '' }}</td>
                         <td>
                             <a href="{{ url_for('edit_transaction', tx_id=t.id, category=current_filter) }}" class="form-button edit-button">Edit</a>
-                            <form method="POST" action="{{ url_for('delete_transaction', tx_id=t.id) }}" style="display:inline;" onsubmit="return confirmDelete();">
+                            <form method="POST" action="{{ url_for('delete_transaction', tx_id=t.id, category=current_filter) }}" style="display:inline;" onsubmit="return confirmDelete();">
                                 <button type="submit" class="form-button delete-button">Delete</button>
                             </form>
 
