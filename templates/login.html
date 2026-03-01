@@ -12,7 +12,7 @@
     
     {% with messages = get_flashed_messages(with_categories=True) %}
         {% if messages %}
-            <ul class="flash-messages">
+            <ul class="flashes">
                 {% for category, message in messages %}
                     <li class="{{ category }}">{{ message }}</li>
                 {% endfor %}
@@ -29,5 +29,6 @@
     </div>
 
     <p>Don't have an account? <a href="{{ url_for('register') }}">Register here</a></p>
+    <p>[DEMO ACCOUNT] Username: demo, Password: demo1234</p>
 </body>
 </html>

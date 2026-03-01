@@ -1,13 +1,14 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from models import Category, db, Transaction, TransactionType, User
+import seed
 from datetime import datetime
 import os
 
 app = Flask(__name__, instance_relative_config=True)
 db_path = os.path.join(app.instance_path, 'budget.db')
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/budget.db' # f'sqlite:///{db_path}' # 'sqlite:///budget.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///budget.db' # f'sqlite:///{db_path}' # 'sqlite:///budget.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = os.environ.get('SECRET_KEY', 'devkey')
 
@@ -20,6 +21,7 @@ with app.app_context():
         for name in ['Food', 'Rent', 'Transport', 'Entertainment', 'Utilities', 'Other']:
             db.session.add(Category(name=name))
         db.session.commit()
+    seed.create_demo_account()
 
 # Handle login manager setup
 login_manager = LoginManager()

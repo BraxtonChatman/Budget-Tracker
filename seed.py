@@ -1,44 +1,40 @@
 import random
 from datetime import datetime, timedelta
-from models import db, Category, Transaction
-from app import app
+from models import db, Category, Transaction, TransactionType, User
 
+def create_demo_account():
+    demo_username = 'demo'
+    demo_password = 'demo1234'
 
-def seed_random_transactions(n=20):
-    with app.app_context():
-        categories = Category.query.all()
-        if not categories:
-            print("No categories found.")
-            return
-
-        descriptions = [
-            "Groceries", "Gas", "Dinner", "Coffee", "Rent payment",
-            "Internet bill", "Gym membership", "Movie ticket",
-            "Uber ride", "Clothes", "Books", "Concert ticket",
-            "Electric bill", "Water bill", "Subscription",
-            "Parking", "Haircut", "Pharmacy", "Gift", "Travel"
-        ]
-
-        for _ in range(n):
-            random_category = random.choice(categories)
-            random_amount = round(random.uniform(5, 500), 2)
-            random_days_ago = random.randint(0, 90)
-            random_date = datetime.today().date() - timedelta(days=random_days_ago)
-            random_type = random.choice(["Income", "Expense"])
-
-            tx = Transaction(
-                date=random_date,
-                category_id=random_category.id,
-                description=random.choice(descriptions),
-                amount=random_amount,
-                type=random_type
-            )
-
-            db.session.add(tx)
-
+    demo_user = User.query.filter_by(username=demo_username).first()
+    if not demo_user:
+        demo_user = User(username = demo_username)
+        demo_user.set_password(demo_password)
+        db.session.add(demo_user)
         db.session.commit()
-        print(f"{n} random transactions added.")
 
+    # Populate demo account transactions
+    if Transaction.query.filter_by(user_id=demo_user.id).first():
+        return
+    
+    categories = Category.query.all()
+    types = [TransactionType('Income'), TransactionType('Expense')]
 
-if __name__ == "__main__":
-    seed_random_transactions(20)
+    for i in range(30):
+        category = random.choice(categories)
+        tx_type = random.choice(types)
+        amount = round(random.uniform(10, 500), 2)
+        date = datetime.today() - timedelta(days=random.randint(0,30))
+        description = f"Demo transaction {i+1}"
+
+        demo_tx = Transaction(
+            date=date,
+            category_id=category.id,
+            description=description,
+            amount=amount,
+            type=tx_type,
+            user_id=demo_user.id
+        )
+        db.session.add(demo_tx)
+    db.session.commit()
+
