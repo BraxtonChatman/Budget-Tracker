@@ -8,6 +8,10 @@
 </head>
 <body>
     <h1>Budget Tracker</h1>
+    <div class="nav-bar">
+        <span>Logged in as: {{current_user.username }}</span>
+        <a href="{{ url_for('logout') }}" class="form-button add-button">Logout</a>
+    </div>
 
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}

@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
-from models import Category, db, Transaction, TransactionType
+from flask_login import LoginManager, login_user, login_required, logout_user, current_user
+from models import Category, db, Transaction, TransactionType, User
 from datetime import datetime
 import os
 
@@ -20,15 +21,74 @@ with app.app_context():
             db.session.add(Category(name=name))
         db.session.commit()
 
+# Handle login manager setup
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
+
+# User loader
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+# --- REGISTER USER ---
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+
+        if User.query.filter_by(username=username).first():
+            flash("Username already exists", "error")
+            return redirect(url_for('register'))
+        
+        user = User(username=username)
+        user.set_password(password)
+
+        db.session.add(user)
+        db.session.commit()
+
+        flash("Account created. Please log in.", "success")
+        return redirect(url_for('login'))
+
+    return render_template('register.html')
+
+
+# --- LOGIN ---
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+
+        user = User.query.filter_by(username=username).first()
+
+        if user and user.check_password(password):
+            login_user(user)
+            return redirect(url_for('index'))
+        else:
+            flash("Invalid credentials", "error")
+
+    return render_template('login.html')
+
+
+# -- LOGOUT ---
+@app.route('/logout', methods=['GET'])
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
+
 
 # --- INDEX / LIST ---
 @app.route('/')
+@login_required
 def index():
     category_filter = request.args.get('category')
     if category_filter:
-        transactions = Transaction.query.filter_by(category_id=int(category_filter)).all()
+        transactions = Transaction.query.filter_by(category_id=int(category_filter), user_id=current_user.id).all()
     else:
-        transactions = Transaction.query.all()
+        transactions = Transaction.query.filter_by(user_id=current_user.id)
         
     total_income = sum(t.amount for t in transactions if t.type.value == 'Income')
     total_expense = sum(t.amount for t in transactions if t.type.value == 'Expense')
@@ -48,6 +108,7 @@ def index():
 
 # --- ADD TRANSACTION ---
 @app.route('/add', methods=['POST'])
+@login_required
 def add_transaction():
     errors, date, category, description, amount, type = validate_transaction_form(request.form)
 
@@ -63,6 +124,7 @@ def add_transaction():
         amount=amount,
         type=type
     )
+    new_transaction.user_id = current_user.id
     db.session.add(new_transaction)
     db.session.commit()
     flash("Transaction added successfully.", 'success')
@@ -71,8 +133,9 @@ def add_transaction():
 
 # --- EDIT TRANSACTION ---
 @app.route('/edit/<int:tx_id>', methods=['GET', 'POST'])
+@login_required
 def edit_transaction(tx_id):
-    tx = Transaction.query.get_or_404(tx_id)
+    tx = Transaction.query.filter_by(id=tx_id, user_id=current_user.id).first_or_404()
 
     if request.method == 'POST':
         errors, date, category, description, amount, type = validate_transaction_form(request.form)
@@ -97,8 +160,9 @@ def edit_transaction(tx_id):
 
 # --- DELETE TRANSACTION ---
 @app.route('/delete/<int:tx_id>', methods=['POST'])
+@login_required
 def delete_transaction(tx_id):
-    tx = Transaction.query.get(tx_id)
+    tx = Transaction.query.filter_by(id=tx_id, user_id=current_user.id).first_or_404()
     if tx:
         db.session.delete(tx)
         db.session.commit()
