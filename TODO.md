@@ -49,9 +49,9 @@
 - [ ] Add CSV export
     * Build `/export` route to download CSV of transactions
     * Optionally include filters in export
-- [ ] Authentication / Users
-    * Add multiple users with login/logout
-    * Transactions tied to a specific user
+- [X] Authentication / Users
+    * ~~Add multiple users with login/logout~~
+    * ~~Transactions tied to a specific user~~
 - [ ] Analytics / Charts
     * Use Chart.js or Plotly to show spending trends over time
 - [ ] API Layer
