@@ -118,8 +118,10 @@ def index():
     elif sort_by == 'amount':
         query = query.order_by(Transaction.amount.desc())
     elif sort_by == 'type':
-        query = query.order_by(Transaction.type) 
-   
+        query = query.order_by(Transaction.type, Transaction.date.desc(), Transaction.amount.desc()) 
+    else:
+        query = query.order_by(Transaction.date.desc())
+
     transactions = query.all()
 
     total_income = sum(t.amount for t in transactions if t.type.value == 'Income')
