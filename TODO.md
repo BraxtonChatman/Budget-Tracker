@@ -25,7 +25,7 @@
     * Handle long descriptions with ellipsis or tooltip
 - [X] Show totals per category, not just overall total
 - [ ] Filtering / Searching
-    * Keep category filter after editing a transaction
+    * ~~Keep category filter after editing a transaction~~
     * Sort transactions descending by date
     * Add date range filtering
     * Add keyword search on descriptions
