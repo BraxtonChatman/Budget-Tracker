@@ -7,7 +7,7 @@ import os
 app = Flask(__name__, instance_relative_config=True)
 db_path = os.path.join(app.instance_path, 'budget.db')
 
-app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}' # 'sqlite:///budget.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/budget.db' # f'sqlite:///{db_path}' # 'sqlite:///budget.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = os.environ.get('SECRET_KEY', 'devkey')
 
