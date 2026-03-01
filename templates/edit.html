@@ -10,7 +10,7 @@
     <h1>Edit Transaction</h1>
 
     <div class="form-container">
-        <form method="POST" action="{{ url_for('edit_transaction', tx_id=transaction.id) }}">
+        <form method="POST" action="{{ url_for('edit_transaction', tx_id=transaction.id, category=request.args.get('category')) }}">
             <input type="date" name="date" class="form-input" value="{{ transaction.date.strftime('%Y-%m-%d') }}" required>
             <select name="category" class="form-input" required>
                 {% for c in categories %}
@@ -29,6 +29,6 @@
         </form>
     </div>
 
-    <a href="{{ url_for('index') }}">Cancel</a>
+    <a href="{{ url_for('index', category=request.args.get('category')) }}">Cancel</a>
 </body>
 </html>

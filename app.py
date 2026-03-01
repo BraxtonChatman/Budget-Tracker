@@ -145,7 +145,7 @@ def edit_transaction(tx_id):
         if errors:
             for e in errors:
                 flash(e, 'error')
-            return redirect(url_for('edit_transaction', tx_id=tx_id))
+            return redirect(url_for('edit_transaction', tx_id=tx_id, category=request.args.get('category')))
 
         tx.date = date
         tx.category_id = category.id
@@ -155,7 +155,7 @@ def edit_transaction(tx_id):
         
         db.session.commit()
         flash("Transaction updated successfully.", 'success')
-        return redirect(url_for('index'))
+        return redirect(url_for('index', category=request.args.get('category')))
     
     categories = Category.query.all()
     return render_template('edit.html', transaction=tx, categories=categories)
