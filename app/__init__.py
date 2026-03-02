@@ -29,8 +29,6 @@ def create_app():
     app.register_blueprint(auth_bp)
     app.register_blueprint(transactions_bp)
 
-    from . import seed
-
     # Create tables and seed demo account
     with app.app_context():
         db.create_all()
@@ -38,6 +36,5 @@ def create_app():
             for name in ['Food', 'Rent', 'Transport', 'Entertainment', 'Utilities', 'Other']:
                 db.session.add(Category(name=name))
             db.session.commit()
-        seed.create_demo_account()
 
     return app

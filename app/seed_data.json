@@ -1,0 +1,47 @@
+{
+  "categories": [
+    {"id": 1, "name": "Food"},
+    {"id": 2, "name": "Rent"},
+    {"id": 3, "name": "Transport"},
+    {"id": 4, "name": "Entertainment"},
+    {"id": 5, "name": "Utilities"},
+    {"id": 6, "name": "Other"},
+    {"id": 7, "name": "Salary"},
+    {"id": 8, "name": "Side Income"}
+  ],
+  "users": [
+    {"username": "demo", "password": "demo1234"}
+  ],
+  "transactions": [
+    {"user": "demo", "category_id": 7, "type": "Income", "date": "2026-02-28", "description": "Monthly salary", "amount": 3000.00},
+    {"user": "demo", "category_id": 1, "type": "Expense", "date": "2026-02-27", "description": "Grocery shopping", "amount": 75.20},
+    {"user": "demo", "category_id": 3, "type": "Expense", "date": "2026-02-26", "description": "Gas", "amount": 40.00},
+    {"user": "demo", "category_id": 2, "type": "Expense", "date": "2026-02-25", "description": "February rent", "amount": 1200.00},
+    {"user": "demo", "category_id": 8, "type": "Income", "date": "2026-02-24", "description": "Freelance project", "amount": 250.00},
+    {"user": "demo", "category_id": 1, "type": "Expense", "date": "2026-02-23", "description": "Coffee and snacks", "amount": 12.50},
+    {"user": "demo", "category_id": 4, "type": "Expense", "date": "2026-02-22", "description": "Movie night", "amount": 18.00},
+    {"user": "demo", "category_id": 5, "type": "Expense", "date": "2026-02-21", "description": "Electric bill", "amount": 90.00},
+    {"user": "demo", "category_id": 6, "type": "Expense", "date": "2026-02-20", "description": "Gift for friend", "amount": 30.00},
+    {"user": "demo", "category_id": 3, "type": "Expense", "date": "2026-02-19", "description": "Bus pass", "amount": 25.00},
+    {"user": "demo", "category_id": 1, "type": "Income", "date": "2026-02-18", "description": "Refund from store", "amount": 15.00},
+    {"user": "demo", "category_id": 4, "type": "Expense", "date": "2026-02-17", "description": "Concert ticket", "amount": 60.00},
+    {"user": "demo", "category_id": 1, "type": "Expense", "date": "2026-02-16", "description": "Lunch with coworkers", "amount": 18.50},
+    {"user": "demo", "category_id": 2, "type": "Expense", "date": "2026-02-15", "description": "Rent partial", "amount": 600.00},
+    {"user": "demo", "category_id": 8, "type": "Income", "date": "2026-02-14", "description": "Sold old bike", "amount": 150.00},
+    {"user": "demo", "category_id": 5, "type": "Expense", "date": "2026-02-13", "description": "Water bill", "amount": 45.00},
+    {"user": "demo", "category_id": 1, "type": "Expense", "date": "2026-02-12", "description": "Groceries", "amount": 55.25},
+    {"user": "demo", "category_id": 4, "type": "Expense", "date": "2026-02-11", "description": "Board game night", "amount": 35.00},
+    {"user": "demo", "category_id": 3, "type": "Expense", "date": "2026-02-10", "description": "Uber ride", "amount": 22.00},
+    {"user": "demo", "category_id": 6, "type": "Expense", "date": "2026-02-09", "description": "Charity donation", "amount": 30.00},
+    {"user": "demo", "category_id": 1, "type": "Expense", "date": "2026-02-08", "description": "Coffee", "amount": 5.50},
+    {"user": "demo", "category_id": 7, "type": "Income", "date": "2026-02-07", "description": "Bonus", "amount": 500.00},
+    {"user": "demo", "category_id": 1, "type": "Expense", "date": "2026-02-06", "description": "Snacks", "amount": 10.00},
+    {"user": "demo", "category_id": 5, "type": "Expense", "date": "2026-02-05", "description": "Internet bill", "amount": 55.00},
+    {"user": "demo", "category_id": 8, "type": "Income", "date": "2026-02-04", "description": "Side project", "amount": 200.00},
+    {"user": "demo", "category_id": 3, "type": "Expense", "date": "2026-02-03", "description": "Gas refill", "amount": 35.00},
+    {"user": "demo", "category_id": 4, "type": "Expense", "date": "2026-02-02", "description": "Streaming subscription", "amount": 15.99},
+    {"user": "demo", "category_id": 1, "type": "Expense", "date": "2026-02-01", "description": "Grocery shopping", "amount": 60.00},
+    {"user": "demo", "category_id": 7, "type": "Income", "date": "2026-01-31", "description": "Monthly salary", "amount": 3000.00},
+    {"user": "demo", "category_id": 2, "type": "Expense", "date": "2026-01-30", "description": "January rent", "amount": 1200.00}
+  ]
+}
