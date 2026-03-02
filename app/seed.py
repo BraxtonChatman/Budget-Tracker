@@ -1,12 +1,13 @@
 import random
 from datetime import datetime, timedelta
 from app.extensions import db
-from app.models import db, Category, Transaction, TransactionType, User
+from app.models import Category, Transaction, TransactionType, User
 
 def create_demo_account():
     demo_username = 'demo'
     demo_password = 'demo1234'
 
+    # Check if demo user exists
     demo_user = User.query.filter_by(username=demo_username).first()
     if not demo_user:
         demo_user = User(username = demo_username)
@@ -14,12 +15,12 @@ def create_demo_account():
         db.session.add(demo_user)
         db.session.commit()
 
-    # Populate demo account transactions
+    # Avoid adding transactions if they already exist
     if Transaction.query.filter_by(user_id=demo_user.id).first():
         return
     
     categories = Category.query.all()
-    types = [TransactionType('Income'), TransactionType('Expense')]
+    types = [TransactionType.Income, TransactionType.Expense]
 
     for i in range(30):
         category = random.choice(categories)

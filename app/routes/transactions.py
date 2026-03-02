@@ -45,8 +45,8 @@ def add_transaction():
     if not success:
         for e in errors:
             flash(e, 'error')
-
-    flash("Transaction added successfully.", 'success')
+    else:
+        flash("Transaction added successfully.", 'success')
     return redirect(url_for('transactions.index', category=request.args.get('category')))
 
 
@@ -64,7 +64,6 @@ def edit_transaction(tx_id):
                 flash(e, 'error')
         else:
             flash("Transaction updated successfully.", 'success')
-
         return redirect(url_for('transactions.index', category=category_filter))
     
     tx, categories = get_transaction_and_categories(current_user, tx_id)

@@ -38,7 +38,7 @@ def login():
             return redirect(url_for('auth.login'))
         
         login_user(user)
-        flash("Logged in successfully.", "succes")
+        flash("Logged in successfully.", "success")
         return redirect(url_for('transactions.index'))
             
     return render_template('login.html')
