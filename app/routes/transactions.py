@@ -1,7 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user
-from ..models import Transaction, Category
-from datetime import datetime
 from app.services.transaction_services import add_transaction_for_user, delete_transaction_by_id, edit_transaction_for_user, get_transaction_and_categories, get_transaction_dashboard_data
 
 transactions_bp = Blueprint('transactions', __name__, template_folder='../templates')

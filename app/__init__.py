@@ -4,8 +4,7 @@ from .extensions import db, login_manager
 from .models import User, Category
 from .routes.auth import auth_bp
 from .routes.transactions import transactions_bp
-
-
+from .filters import format_currency
 
 def create_app():
     app = Flask(__name__, instance_relative_config=True)
@@ -15,6 +14,7 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}' 
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.secret_key = os.environ.get('SECRET_KEY', 'devkey')
+    app.add_template_filter(format_currency)
 
     # initialize extensions
     db.init_app(app)
@@ -39,22 +39,5 @@ def create_app():
                 db.session.add(Category(name=name))
             db.session.commit()
         seed.create_demo_account()
-
-    # --- TEMPLATE FILTERS ---
-    @app.template_filter()
-    def format_currency(value, show_sign=False):
-        try:
-            value = float(value)
-        except (TypeError, ValueError):
-            return "$0.00"
-
-        formatted = "${:,.2f}".format(abs(value))
-
-        if show_sign:
-            if value < 0:
-                return f"-{formatted}"
-            else:
-                return formatted
-        return formatted
 
     return app
