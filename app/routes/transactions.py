@@ -1,9 +1,8 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user
-from ..models import Transaction, Category, TransactionType
-from ..extensions import db
+from ..models import Transaction, Category
 from datetime import datetime
-from app.forms import validate_transaction_form
+from app.services.transaction_services import add_transaction_for_user, delete_transaction_by_id, edit_transaction_for_user, get_transaction_and_categories, get_transaction_dashboard_data
 
 transactions_bp = Blueprint('transactions', __name__, template_folder='../templates')
 
@@ -17,48 +16,23 @@ def index():
     end_date_str = request.args.get('end_date')
     sort_by = request.args.get('sort_by', 'date')
 
-    # Initial query
-    query = Transaction.query.filter_by(user_id=current_user.id)
+    transactions, totals, categories, errors = get_transaction_dashboard_data(
+        current_user, 
+        category_filter, 
+        sort_by, 
+        start_date_str, 
+        end_date_str
+    )
 
-    # Apply filters
-    if category_filter:
-        query = query.filter_by(category_id=int(category_filter))
-    if start_date_str:
-        try:
-            start_date = datetime.strptime(start_date_str, '%Y-%m-%d').date()
-            query = query.filter(Transaction.date >= start_date)
-        except:
-            flash('Invalid start date', 'error')
-    if end_date_str:
-        try:
-            end_date = datetime.strptime(end_date_str, '%Y-%m-%d').date()
-            query = query.filter(Transaction.date <= end_date)
-        except:
-            flash('Invalid end date', 'error')
-
-    # Apply sorting
-    if sort_by == 'date':
-        query = query.order_by(Transaction.date.desc())
-    elif sort_by == 'amount':
-        query = query.order_by(Transaction.amount.desc())
-    elif sort_by == 'type':
-        query = query.order_by(Transaction.type, Transaction.date.desc(), Transaction.amount.desc()) 
-    else:
-        query = query.order_by(Transaction.date.desc())
-
-    transactions = query.all()
-
-    total_income = sum(t.amount for t in transactions if t.type.value == 'Income')
-    total_expense = sum(t.amount for t in transactions if t.type.value == 'Expense')
-    net_total = total_income - total_expense
-    categories = Category.query.all()
+    for e in errors:
+        flash(e, 'error')
 
     return render_template(
         'index.html', 
         transactions=transactions, 
-        total_income=total_income,
-        total_expense=total_expense,
-        net_total=net_total,
+        total_income=totals['income'],
+        total_expense=totals['expense'],
+        net_total=totals['net'],
         categories=categories, 
         current_filter=int(category_filter) if category_filter else None,
         sort_by = sort_by if sort_by else 'date'
@@ -69,23 +43,11 @@ def index():
 @transactions_bp.route('/add', methods=['POST'])
 @login_required
 def add_transaction():
-    errors, date, category, description, amount, type = validate_transaction_form(request.form)
-
-    if errors:
+    success, errors = add_transaction_for_user(current_user, request.form)
+    if not success:
         for e in errors:
             flash(e, 'error')
-        return redirect(url_for('transactions.index'))
 
-    new_transaction = Transaction(
-        date=date, 
-        category_id=category.id, 
-        description=description, 
-        amount=amount,
-        type=type
-    )
-    new_transaction.user_id = current_user.id
-    db.session.add(new_transaction)
-    db.session.commit()
     flash("Transaction added successfully.", 'success')
     return redirect(url_for('transactions.index', category=request.args.get('category')))
 
@@ -94,26 +56,20 @@ def add_transaction():
 @transactions_bp.route('/edit/<int:tx_id>', methods=['GET', 'POST'])
 @login_required
 def edit_transaction(tx_id):
-    tx = Transaction.query.filter_by(id=tx_id, user_id=current_user.id).first_or_404()
+    category_filter = request.args.get('category')
 
     if request.method == 'POST':
-        errors, date, category, description, amount, type = validate_transaction_form(request.form)
-        if errors:
+        success, errors = edit_transaction_for_user(current_user, tx_id, request.form)
+        
+        if not success:
             for e in errors:
                 flash(e, 'error')
-            return redirect(url_for('transactions.edit_transaction', tx_id=tx_id, category=request.args.get('category')))
+        else:
+            flash("Transaction updated successfully.", 'success')
 
-        tx.date = date
-        tx.category_id = category.id
-        tx.description = description
-        tx.amount = amount
-        tx.type = type
-        
-        db.session.commit()
-        flash("Transaction updated successfully.", 'success')
-        return redirect(url_for('transactions.index', category=request.args.get('category')))
+        return redirect(url_for('transactions.index', category=category_filter))
     
-    categories = Category.query.all()
+    tx, categories = get_transaction_and_categories(current_user, tx_id)
     return render_template('edit.html', transaction=tx, categories=categories)
 
 
@@ -121,8 +77,5 @@ def edit_transaction(tx_id):
 @transactions_bp.route('/delete/<int:tx_id>', methods=['POST'])
 @login_required
 def delete_transaction(tx_id):
-    tx = Transaction.query.filter_by(id=tx_id, user_id=current_user.id).first_or_404()
-    if tx:
-        db.session.delete(tx)
-        db.session.commit()
+    delete_transaction_by_id(current_user, tx_id)
     return redirect(url_for('transactions.index', category=request.args.get('category')))
