@@ -108,7 +108,7 @@ def index():
     if end_date_str:
         try:
             end_date = datetime.strptime(end_date_str, '%Y-%m-%d').date()
-            query.filter(Transaction.date <= end_date)
+            query = query.filter(Transaction.date <= end_date)
         except:
             flash('Invalid end date', 'error')
 
