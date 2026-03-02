@@ -222,64 +222,64 @@ import os
 #     return formatted
 
 
-# --- INPUT VALIDATION HELPER ---
-def validate_transaction_form(form):
-    date_str = form.get('date')
-    category_id_str = form.get('category')
-    description = form.get('description', '').strip()
-    amount_str = form.get('amount')
-    type_str = form.get('type')
+# # --- INPUT VALIDATION HELPER ---
+# def validate_transaction_form(form):
+#     date_str = form.get('date')
+#     category_id_str = form.get('category')
+#     description = form.get('description', '').strip()
+#     amount_str = form.get('amount')
+#     type_str = form.get('type')
 
-    # Validation
-    errors = []
+#     # Validation
+#     errors = []
 
-    # Validate date
-    date = None
-    if not date_str:
-        errors.append("Date is required.")
-    else:
-        try: 
-            date = datetime.strptime(date_str, '%Y-%m-%d').date()
-        except ValueError:
-            errors.append("Invalid date format.")
+#     # Validate date
+#     date = None
+#     if not date_str:
+#         errors.append("Date is required.")
+#     else:
+#         try: 
+#             date = datetime.strptime(date_str, '%Y-%m-%d').date()
+#         except ValueError:
+#             errors.append("Invalid date format.")
 
-    # Validate category
-    category = None
-    if not category_id_str:
-        errors.append("Category is required.")
-    else:
-        try:
-            category_id = int(category_id_str)
-            category = Category.query.get(category_id)
-            if not category:
-                errors.append("Selected category does not exist.")
-        except ValueError:
-            errors.append("Category ID must be a valid number.")
+#     # Validate category
+#     category = None
+#     if not category_id_str:
+#         errors.append("Category is required.")
+#     else:
+#         try:
+#             category_id = int(category_id_str)
+#             category = Category.query.get(category_id)
+#             if not category:
+#                 errors.append("Selected category does not exist.")
+#         except ValueError:
+#             errors.append("Category ID must be a valid number.")
 
-    # Validate amount
-    amount = None
-    if not amount_str:
-        errors.append("Amount is required.")
-    else:
-        try:
-            amount = float(amount_str)
-            if amount <= 0:
-                errors.append("Amount must be greater than zero.")
-        except (TypeError, ValueError):
-            errors.append("Amount must be a valid number.")
+#     # Validate amount
+#     amount = None
+#     if not amount_str:
+#         errors.append("Amount is required.")
+#     else:
+#         try:
+#             amount = float(amount_str)
+#             if amount <= 0:
+#                 errors.append("Amount must be greater than zero.")
+#         except (TypeError, ValueError):
+#             errors.append("Amount must be a valid number.")
 
-    # Validate type
-    type = None
-    if type_str not in ['Income', 'Expense']:
-        errors.append("Type must be either 'Income' or 'Expense'.")
-    else:
-        type = TransactionType(type_str)
+#     # Validate type
+#     type = None
+#     if type_str not in ['Income', 'Expense']:
+#         errors.append("Type must be either 'Income' or 'Expense'.")
+#     else:
+#         type = TransactionType(type_str)
 
-    # Default description if empty
-    if not description:
-        description = "(No description)"
+#     # Default description if empty
+#     if not description:
+#         description = "(No description)"
     
-    return errors, date, category, description, amount, type
+#     return errors, date, category, description, amount, type
 
 
 # if __name__ == "__main__":

@@ -3,6 +3,7 @@ from flask_login import login_required, current_user
 from ..models import Transaction, Category, TransactionType
 from ..extensions import db
 from datetime import datetime
+from app.forms import validate_transaction_form
 
 transactions_bp = Blueprint('transactions', __name__, template_folder='../templates')
 
@@ -73,7 +74,7 @@ def add_transaction():
     if errors:
         for e in errors:
             flash(e, 'error')
-        return redirect(url_for('transaction.index'))
+        return redirect(url_for('transactions.index'))
 
     new_transaction = Transaction(
         date=date, 
@@ -86,7 +87,7 @@ def add_transaction():
     db.session.add(new_transaction)
     db.session.commit()
     flash("Transaction added successfully.", 'success')
-    return redirect(url_for('transaction.index', category=request.args.get('category')))
+    return redirect(url_for('transactions.index', category=request.args.get('category')))
 
 
 # --- EDIT TRANSACTION ---
@@ -100,7 +101,7 @@ def edit_transaction(tx_id):
         if errors:
             for e in errors:
                 flash(e, 'error')
-            return redirect(url_for('transaction.edit_transaction', tx_id=tx_id, category=request.args.get('category')))
+            return redirect(url_for('transactions.edit_transaction', tx_id=tx_id, category=request.args.get('category')))
 
         tx.date = date
         tx.category_id = category.id
@@ -110,7 +111,7 @@ def edit_transaction(tx_id):
         
         db.session.commit()
         flash("Transaction updated successfully.", 'success')
-        return redirect(url_for('transaction.index', category=request.args.get('category')))
+        return redirect(url_for('transactions.index', category=request.args.get('category')))
     
     categories = Category.query.all()
     return render_template('edit.html', transaction=tx, categories=categories)
@@ -124,4 +125,4 @@ def delete_transaction(tx_id):
     if tx:
         db.session.delete(tx)
         db.session.commit()
-    return redirect(url_for('transaction.index', category=request.args.get('category')))
+    return redirect(url_for('transactions.index', category=request.args.get('category')))
