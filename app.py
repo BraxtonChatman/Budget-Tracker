@@ -136,7 +136,8 @@ def index():
         total_expense=total_expense,
         net_total=net_total,
         categories=categories, 
-        current_filter=int(category_filter) if category_filter else None
+        current_filter=int(category_filter) if category_filter else None,
+        sort_by = sort_by if sort_by else 'date'
     )
 
 

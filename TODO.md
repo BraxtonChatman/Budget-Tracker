@@ -26,10 +26,11 @@
 - [X] Show totals per category, not just overall total
 - [ ] Filtering / Searching
     * ~~Keep category filter after editing a transaction~~
-    * Sort transactions descending by date
-    * Add date range filtering
+    * ~~Sort transactions descending by date~~
+    * ~~Add date range filtering~~
     * Add keyword search on descriptions
-    * Combine category + date filters
+    * ~~Combine category + date filters~~
+    * Keep sort by and date filters after editing a transaction
 - [X] Add basic flash messages (success / error feedback)
 - [ ] Better project structure
     * Move category seeding into `seed.py`
