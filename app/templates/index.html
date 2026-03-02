@@ -10,7 +10,7 @@
     <h1>Budget Tracker</h1>
     <div class="nav-bar">
         <span>Logged in as: {{current_user.username }}</span>
-        <a href="{{ url_for('logout') }}" class="form-button add-button">Logout</a>
+        <a href="{{ url_for('auth.logout') }}" class="form-button add-button">Logout</a>
     </div>
 
     {% with messages = get_flashed_messages(with_categories=true) %}
@@ -32,7 +32,7 @@
 
     <h2>Add Transaction</h2>
     <div class="form-container">
-        <form method="POST" action="{{ url_for('add_transaction', category=current_filter) }}">
+        <form method="POST" action="{{ url_for('transactions.add_transaction', category=current_filter) }}">
             <input type="date" name="date" class="form-input" required>
             <select name="category" class="form-input" required>
                 {% for c in categories %}
@@ -98,8 +98,8 @@
                         <td class="amount income">{{ t.amount|format_currency if t.type.value == 'Income' else '' }}</td>
                         <td class="amount expense">{{ t.amount|format_currency if t.type.value == 'Expense' else '' }}</td>
                         <td>
-                            <a href="{{ url_for('edit_transaction', tx_id=t.id, category=current_filter) }}" class="form-button edit-button">Edit</a>
-                            <form method="POST" action="{{ url_for('delete_transaction', tx_id=t.id, category=current_filter) }}" style="display:inline;" onsubmit="return confirmDelete();">
+                            <a href="{{ url_for('transactions.edit_transaction', tx_id=t.id, category=current_filter) }}" class="form-button edit-button">Edit</a>
+                            <form method="POST" action="{{ url_for('transactions.delete_transaction', tx_id=t.id, category=current_filter) }}" style="display:inline;" onsubmit="return confirmDelete();">
                                 <button type="submit" class="form-button delete-button">Delete</button>
                             </form>
 

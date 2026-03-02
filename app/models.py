@@ -1,9 +1,9 @@
-from flask_sqlalchemy import SQLAlchemy
+from app.extensions import db
 import enum
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
-db = SQLAlchemy()
+
 
 class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)

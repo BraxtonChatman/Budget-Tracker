@@ -1,6 +1,7 @@
 import random
 from datetime import datetime, timedelta
-from models import db, Category, Transaction, TransactionType, User
+from app.extensions import db
+from app.models import db, Category, Transaction, TransactionType, User
 
 def create_demo_account():
     demo_username = 'demo'
