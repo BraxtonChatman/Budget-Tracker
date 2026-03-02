@@ -10,6 +10,7 @@
 ---
 
 ## Now (Current Focus)
+- [ ] Update TODO and README
 - [X] Polish date and amount handling
     * ~~Ensure proper validation: prevent negative amounts, invalid dates, empty descriptions~~
     * ~~Handle empty states gracefully (no transactions)~~
