@@ -37,9 +37,12 @@ def create_app(config_name = None):
     # Create tables and seed demo account
     with app.app_context():
         db.create_all()
-        if not Category.query.first():
-            for name in ['Food', 'Rent', 'Transport', 'Entertainment', 'Utilities', 'Other']:
-                db.session.add(Category(name=name))
-            db.session.commit()
+        seed_categories()
 
     return app
+
+def seed_categories():
+    if not Category.query.first():
+        for name in ['Food', 'Rent', 'Transport', 'Entertainment', 'Utilities', 'Other']:
+            db.session.add(Category(name=name))
+        db.session.commit()   
