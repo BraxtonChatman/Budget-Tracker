@@ -11,20 +11,17 @@
 
 ## Now (Current Focus)
 - [ ] Update TODO and README
-- [X] Polish date and amount handling
-    * ~~Ensure proper validation: prevent negative amounts, invalid dates, empty descriptions~~
-    * ~~Handle empty states gracefully (no transactions)~~
-    * ~~Ensure `edit.html` date input uses `transaction.date.strftime('%Y-%m-%d')`~~
-    * ~~Display amounts as currency (`$12.34`) in templates~~
-- [X] Add income vs expense distinction
-    * ~~Optional: use SQLAlchemy Enum for `type` field~~
+- [ ] Testing
+    * Unit tests for models and routes
+    * Integration tests: add → edit → delete → verify totals
+- [ ] Database Migrations
+    * Integrate Flask-Migrate for schema evolution
 - [ ] Enhance UI/UX
     * Make forms and transaction lists more visually appealing
     * ~~Add confirmation modals for delete actions~~
     * Use CSS Grid/Flexbox for better responsive layout
     * Improve edit page layout to match index page
     * Handle long descriptions with ellipsis or tooltip
-- [X] Show totals per category, not just overall total
 - [ ] Filtering / Searching
     * ~~Keep category filter after editing a transaction~~
     * ~~Sort transactions descending by date~~
@@ -32,13 +29,21 @@
     * Add keyword search on descriptions
     * ~~Combine category + date filters~~
     * Keep sort by and date filters after editing a transaction
-- [X] Add basic flash messages (success / error feedback)
 - [ ] Better project structure
-    * Move category seeding into `seed.py`
+    * ~~Move category seeding into `seed.py~~`
     * Create `layout.html` base template for common HTML
     * Make CSS widths flexible instead of fixed 150px
-    * Split Flask routes into `routes.py` or a blueprint
+    * ~~Split Flask routes into `routes.py` or a blueprint~~
     * Organize templates and static files clearly
+- [X] Add basic flash messages (success / error feedback)
+- [X] Show totals per category, not just overall total
+- [X] Add income vs expense distinction
+    * ~~Optional: use SQLAlchemy Enum for `type` field~~
+- [X] Polish date and amount handling
+    * ~~Ensure proper validation: prevent negative amounts, invalid dates, empty descriptions~~
+    * ~~Handle empty states gracefully (no transactions)~~
+    * ~~Ensure `edit.html` date input uses `transaction.date.strftime('%Y-%m-%d')`~~
+    * ~~Display amounts as currency (`$12.34`) in templates~~
 
 ---
 
@@ -58,14 +63,9 @@
     * Use Chart.js or Plotly to show spending trends over time
 - [ ] API Layer
     * Add a REST API for transactions: GET, POST, DELETE, PATCH
-- [ ] Database Migrations
-    * Integrate Flask-Migrate for schema evolution
-- [ ] Testing
-    * Unit tests for models and routes
-    * Integration tests: add → edit → delete → verify totals
-- [ ] Deployment
-    * Deploy to Heroku / Render / Fly.io
-    * Include README with setup and features
+- [X] Deployment
+    * ~~Deploy to Heroku / Render / Fly.io~~
+    * ~~Include README with setup and features~~
 
 ---
 
