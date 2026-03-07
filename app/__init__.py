@@ -5,17 +5,19 @@ from .models import User, Category
 from .routes.auth import auth_bp
 from .routes.transactions import transactions_bp
 from .filters import format_currency
+from .config import DevConfig, ProdConfig, TestConfig
 
-def create_app():
+def create_app(config_name = None):
     app = Flask(__name__, instance_relative_config=True)
 
     # configure app
-    db_path = os.path.join(app.instance_path, 'budget.db')
-    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}' 
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.secret_key = os.environ.get('SECRET_KEY', 'devkey')
-    app.add_template_filter(format_currency)
-
+    if config_name == 'testing':
+        app.config.from_object(TestConfig)
+    elif config_name == 'production':
+        app.config.from_object(ProdConfig)
+    else:
+        app.config.from_object(DevConfig)
+    
     # initialize extensions
     db.init_app(app)
     login_manager.init_app(app)
@@ -28,6 +30,9 @@ def create_app():
     # register blueprints
     app.register_blueprint(auth_bp)
     app.register_blueprint(transactions_bp)
+
+    # filters
+    app.add_template_filter(format_currency)
 
     # Create tables and seed demo account
     with app.app_context():
