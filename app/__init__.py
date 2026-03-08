@@ -5,7 +5,7 @@ from .models import User, Category
 from .routes.auth import auth_bp
 from .routes.transactions import transactions_bp
 from .filters import format_currency
-from .config import DevConfig, ProdConfig, TestConfig
+from .config import DevConfig, ProdConfig, TestConfig, DemoConfig
 
 def create_app(config_name = None):
     app = Flask(__name__, instance_relative_config=True)
@@ -13,10 +13,21 @@ def create_app(config_name = None):
     # configure app
     if config_name == 'testing':
         app.config.from_object(TestConfig)
+        app.config['SECRET_KEY'] = 'testkey'
     elif config_name == 'production':
         app.config.from_object(ProdConfig)
+        app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
+    elif config_name == 'demo':
+        app.config.from_object(DemoConfig)
+        app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
     else:
         app.config.from_object(DevConfig)
+        app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'devkey')
+
+    # Adjust SQLite path dynamically
+    if app.config['SQLALCHEMY_DATABASE_URI'].startswith('sqlite:///'):
+        db_path = os.path.join(app.instance_path, 'budget.db')
+        app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{db_path}"
     
     # initialize extensions
     db.init_app(app)
