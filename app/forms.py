@@ -57,5 +57,7 @@ def validate_transaction_form(form):
     # Default description if empty
     if not description:
         description = "(No description)"
+    if len(description) > 200:
+        errors.append("Description must be 200 characters or fewer.")
     
     return errors, date, category, description, amount, type
