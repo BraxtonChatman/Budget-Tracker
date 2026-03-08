@@ -50,7 +50,7 @@ def seed_categories():
 
 def main():
     parser = argparse.ArgumentParser(description='Seed the data')
-    parser.add_argument('--env', default='dev', choices=['dev', 'production'], help='Environment: dev or production')
+    parser.add_argument('--env', default='dev', choices=['dev', 'production', 'testing'], help='Environment: dev, production, or testing')
     parser.add_argument('--reset', action='store_true', help='Drop tables first')
 
     args = parser.parse_args()

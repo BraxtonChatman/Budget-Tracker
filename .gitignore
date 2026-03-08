@@ -7,3 +7,6 @@ __pycache__/
 .vscode/
 *.swp
 .DS_Store
+
+# Pytest cache
+.pytest_cache/
