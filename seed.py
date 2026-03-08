@@ -40,6 +40,13 @@ def seed_data():
             )
             db.session.add(tx)
     db.session.commit()
+    seed_categories()
+
+def seed_categories():
+    if not Category.query.first():
+        for name in ['Food', 'Rent', 'Transport', 'Entertainment', 'Utilities', 'Other']:
+            db.session.add(Category(name=name))
+        db.session.commit()   
 
 def main():
     parser = argparse.ArgumentParser(description='Seed the data')
