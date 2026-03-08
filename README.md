@@ -104,3 +104,8 @@ Deployed on Render: [https://budget-tracker-fko1.onrender.com/](https://budget-t
 - Deployment to cloud platforms (Heroku, Render, Fly.io).  
 - Refactor routes into blueprints and add layout templates for DRY HTML.
 
+## Decisions
+
+- Using `psycopg2-binary` for PostgreSQL integration for now to maintain deployment momentum.
+- Will consider switching to `psycopg2` (non-binary) if scaling requirements or stability needs arise.
+
