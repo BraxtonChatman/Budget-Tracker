@@ -1,4 +1,5 @@
 from datetime import datetime
+from decimal import Decimal
 from .models import Category, TransactionType
 
 # --- INPUT VALIDATION HELPER ---
@@ -41,7 +42,7 @@ def validate_transaction_form(form):
         errors.append("Amount is required.")
     else:
         try:
-            amount = float(amount_str)
+            amount = Decimal(amount_str)
             if amount <= 0:
                 errors.append("Amount must be greater than zero.")
         except (TypeError, ValueError):

@@ -1,5 +1,6 @@
 from app.extensions import db
 import enum
+from sqlalchemy import Numeric
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -18,7 +19,7 @@ class Transaction(db.Model):
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     description = db.Column(db.String(200), nullable=False)
-    amount = db.Column(db.Float, nullable=False)
+    amount = db.Column(db.Numeric(10,2), nullable=False)
     type = db.Column(db.Enum(TransactionType), nullable=False)
 
     def __repr__(self):
