@@ -25,7 +25,7 @@ def create_app(config_name = None):
         app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'devkey')
 
     # Adjust SQLite path dynamically
-    if app.config['SQLALCHEMY_DATABASE_URI'].startswith('sqlite:///'):
+    if not app.config.get("TESTING", False) and app.config['SQLALCHEMY_DATABASE_URI'].startswith('sqlite:///'):
         db_path = os.path.join(app.instance_path, 'budget.db')
         app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{db_path}"
     
