@@ -1,6 +1,7 @@
 from datetime import datetime
 from decimal import Decimal, InvalidOperation
 from .models import Category, TransactionType
+from app.extensions import db
 
 # --- INPUT VALIDATION HELPER ---
 def validate_transaction_form(form):
@@ -30,7 +31,7 @@ def validate_transaction_form(form):
     else:
         try:
             category_id = int(category_id_str)
-            category = Category.query.get(category_id)
+            category = db.session.get(Category, category_id)
             if not category:
                 errors.append("Selected category does not exist.")
         except ValueError:
