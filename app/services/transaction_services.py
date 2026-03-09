@@ -9,6 +9,7 @@ def get_transaction_dashboard_data(user, category_filter=None, sort_by=None, sta
         transactions: list of Transaction
         totals: dict with income, expense, balance
         categories: list of Category
+        errors
     """
     # Initial query
     query = Transaction.query.filter_by(user_id=user.id)
