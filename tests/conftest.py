@@ -1,7 +1,9 @@
 import pytest
 from app import create_app
 from app.extensions import db
-from app.models import User, Category
+from app.models import User, Category, Transaction, TransactionType
+from datetime import date
+from decimal import Decimal
 
 @pytest.fixture
 def app():
@@ -15,6 +17,14 @@ def app():
 def test_user(app):
     user = User(username='testuser')
     user.set_password('password')
+    db.session.add(user)
+    db.session.commit()
+    return user
+
+@pytest.fixture
+def another_user(app):
+    user = User(username='anotheruser')
+    user.set_password('12345678')
     db.session.add(user)
     db.session.commit()
     return user
@@ -36,3 +46,17 @@ def test_category(app):
     db.session.add(category)
     db.session.commit()
     return category
+
+@pytest.fixture
+def test_tx_for_test_user(test_user, test_category):
+    tx = Transaction(
+        date = date(2026, 3, 8),
+        category_id = test_category.id,
+        user_id = test_user.id,
+        description = 'Test transaction for user: testuser',
+        amount = Decimal('25.50'),
+        type = TransactionType.Expense
+    )
+    db.session.add(tx)
+    db.session.commit()
+    return tx
