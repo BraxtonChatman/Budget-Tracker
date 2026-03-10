@@ -74,7 +74,7 @@ def add_transaction_for_user(user, form):
     )
     db.session.add(new_transaction)
     db.session.commit()
-    return True, None
+    return True, []
 
 def edit_transaction_for_user(user, tx_id, form):
     """

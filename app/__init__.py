@@ -16,9 +16,8 @@ def create_app(config_name = None):
         app.config['SECRET_KEY'] = 'testkey'
     elif config_name == 'production':
         app.config.from_object(ProdConfig)
-        app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
-    elif config_name == 'demo':
-        app.config.from_object(DemoConfig)
+        if 'SECRET_KEY' not in os.environ:
+            raise RuntimeError("SECRET_KEY environment variable is required for production!")
         app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
     else:
         app.config.from_object(DevConfig)
