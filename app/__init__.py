@@ -5,7 +5,7 @@ from .models import User, Category
 from .routes.auth import auth_bp
 from .routes.transactions import transactions_bp
 from .filters import format_currency
-from .config import DevConfig, ProdConfig, TestConfig, DemoConfig
+from .config import DevConfig, ProdConfig, TestConfig
 
 def create_app(config_name = None):
     app = Flask(__name__, instance_relative_config=True)
