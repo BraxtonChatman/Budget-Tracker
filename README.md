@@ -31,6 +31,9 @@ Deployed on Render: [https://budget-tracker-fko1.onrender.com/](https://budget-t
 - Responsive HTML/CSS layout 
 - Confirmation dialog for transaction deletion
 
+#### Testing:
+- Unit testing for models and services
+
 
 ## Tech Stack
 - **Backend:** Python, Flask, SQLAlchemy ORM 
@@ -154,7 +157,6 @@ This will create:
 
 Future improvements include:
 
-- Unit tests for models and services  
 - Integration tests for transaction flows  
 - Test database configuration
 

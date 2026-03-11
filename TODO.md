@@ -1,8 +1,8 @@
 # Budget Tracker Development Roadmap
 # Current Priorities
 ## Testing
-- [ ] Unit tests for models
-- [ ] Unit tests for services
+- [X] Unit tests for models
+- [X] Unit tests for services
 - [ ] Integration test: add → edit → delete → verify totals
 - [ ] Configure pytest test environment
 
