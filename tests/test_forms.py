@@ -91,3 +91,15 @@ def test_form_success(test_form, test_category):
     assert description == test_form['description'] or description == "(No description)"
     assert amount == Decimal(test_form['amount'])
     assert type in [TransactionType.Income, TransactionType.Expense]
+
+def test_fully_invalid():
+    form = {
+        'date': 'a',
+        'category': '-b',
+        'description': 'None',
+        'amount': '-c-',
+        'type': 'd'
+    }
+    errors, *_ = validate_transaction_form(form)
+
+    assert errors != []

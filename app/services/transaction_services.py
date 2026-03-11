@@ -102,7 +102,7 @@ def get_transaction_and_categories(user, tx_id):
     """
     Returns the transaction object and all categories (for GET form rendering).
     """
-    tx = Transaction.query.filter_by(id=tx_id, user_id=user.id).first_or_404()
+    tx = Transaction.query.filter_by(id=tx_id, user_id=user.id).first()
     categories = Category.query.all()
     return tx, categories
 
@@ -111,7 +111,7 @@ def delete_transaction_by_id(user, tx_id):
     Deletes transaction with the given id for the given user.
     Returns (success: bool)
     """
-    tx = Transaction.query.filter_by(id=tx_id, user_id=user.id).first_or_404()
+    tx = Transaction.query.filter_by(id=tx_id, user_id=user.id).first()
     if tx:
         db.session.delete(tx)
         db.session.commit()

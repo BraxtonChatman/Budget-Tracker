@@ -41,6 +41,17 @@ def test_form(test_category):
     return form
 
 @pytest.fixture
+def invalid_form(test_category):
+    form = {
+        'date': '1',
+        'category': str(test_category.id),
+        'description': 'A test transaction',
+        'amount': '108.29',
+        'type': 'Income'
+    }
+    return form
+
+@pytest.fixture
 def test_category(app):
     category = Category(id=1, name='Food')
     db.session.add(category)
@@ -48,9 +59,16 @@ def test_category(app):
     return category
 
 @pytest.fixture
+def test_category2(app):
+    category = Category(id=2, name='test')
+    db.session.add(category)
+    db.session.commit()
+    return category
+
+@pytest.fixture
 def test_tx_for_test_user(test_user, test_category):
     tx = Transaction(
-        date = date(2026, 3, 8),
+        date = date(2026, 3, 5),
         category_id = test_category.id,
         user_id = test_user.id,
         description = 'Test transaction for user: testuser',
@@ -60,3 +78,66 @@ def test_tx_for_test_user(test_user, test_category):
     db.session.add(tx)
     db.session.commit()
     return tx
+
+@pytest.fixture
+def test_tx_for_test_user2(test_user, test_category2):
+    tx = Transaction(
+        date = date(2026, 3, 8),
+        category_id = test_category2.id,
+        user_id = test_user.id,
+        description = 'Test transaction for user: testuser',
+        amount = Decimal('12.67'),
+        type = TransactionType.Income
+    )
+    db.session.add(tx)
+    db.session.commit()
+    return tx
+
+@pytest.fixture
+def create_tx_for_testuser(test_user, test_category):
+    def _create(amount, tx_type):
+        tx = Transaction(
+            date = date.today(),
+            category_id = test_category.id,
+            user_id = test_user.id,
+            description = 'Test tx description',
+            amount = Decimal(amount),
+            type = tx_type
+        )
+        return tx
+    return _create
+
+@pytest.fixture
+def test_tx_for_sorting(test_user, test_category):
+    tx1 = Transaction(
+        date=date(2026, 3, 8),
+        category_id=test_category.id,
+        user_id=test_user.id,
+        description='test',
+        amount=Decimal('1.00'),
+        type=TransactionType.Income
+    )
+
+    tx2 = Transaction(
+        date=date(2026, 3, 7),
+        category_id=test_category.id,
+        user_id=test_user.id,
+        description='test',
+        amount=Decimal('2.00'),
+        type=TransactionType.Expense
+    )
+
+    tx3 = Transaction(
+        date=date(2026, 3, 6),
+        category_id=test_category.id,
+        user_id=test_user.id,
+        description='test',
+        amount=Decimal('3.00'),
+        type=TransactionType.Income
+    )
+    db.session.add(tx1)
+    db.session.add(tx2)
+    db.session.add(tx3)
+    db.session.commit()
+    
+    return [tx1, tx2, tx3]
