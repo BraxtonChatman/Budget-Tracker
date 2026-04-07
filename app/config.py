@@ -11,5 +11,5 @@ class TestConfig(BaseConfig):
     TESTING = True
 
 class ProdConfig(BaseConfig):
-    SQLALCHEMY_DATABASE_URI = os.environ.get('sqlite:///instance/budget.db')
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///instance/budget.db'
     # SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL', 'sqlite:///instance/budget.db')
