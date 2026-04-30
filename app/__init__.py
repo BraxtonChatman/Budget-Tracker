@@ -36,7 +36,7 @@ def create_app(config_name = None):
     # User loader
     @login_manager.user_loader
     def load_user(user_id):
-        return User.query.get(int(user_id))
+        return db.session.get(User, int(user_id))
     
     # register blueprints
     app.register_blueprint(auth_bp)
