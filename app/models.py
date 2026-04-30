@@ -9,6 +9,12 @@ class Category(db.Model):
     name = db.Column(db.String(50), unique=True, nullable=False)
     transactions = db.relationship('Transaction', backref='category', lazy=True)
 
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name
+        }
+
 class TransactionType(enum.Enum):
     Income = 'Income'
     Expense = 'Expense'
@@ -24,6 +30,17 @@ class Transaction(db.Model):
 
     def __repr__(self):
         return f"<Transaction {self.category.name} {self.amount} {self.type.value}>"
+    
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "date": self.date.isoformat() if self.date else None,
+            "category_id": self.category_id,
+            "user_id": self.user_id,
+            "description": self.description,
+            "amount": float(self.amount),
+            "type": self.type.value if self.type else None
+        }
     
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)

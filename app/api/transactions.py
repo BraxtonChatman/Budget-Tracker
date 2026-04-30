@@ -8,10 +8,10 @@ from app.services.transaction_services import (
     get_transaction_dashboard_data
 )
 
-transactions_bp = Blueprint('api_transactions', __name__)
+api_transactions_bp = Blueprint('api_transactions', __name__)
 
 # --- GET TRANSACTIONS (ALL) ---
-@transactions_bp.route('/transactions')
+@api_transactions_bp.route('/api/transactions')
 @login_required
 def get_transactions():
     # Get filters

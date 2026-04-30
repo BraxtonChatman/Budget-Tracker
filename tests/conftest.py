@@ -14,12 +14,22 @@ def app():
         db.drop_all()
 
 @pytest.fixture
+def client(app):
+    return app.test_client()
+
+@pytest.fixture
 def test_user(app):
     user = User(username='testuser')
     user.set_password('password')
     db.session.add(user)
     db.session.commit()
     return user
+
+@pytest.fixture
+def authenticated_client(client, test_user):
+    with client.session_transaction() as session:
+        session["_user_id"] = str(test_user.id)
+    return client
 
 @pytest.fixture
 def another_user(app):
