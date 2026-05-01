@@ -8,10 +8,10 @@ from app.services.transaction_services import (
     get_transaction_dashboard_data
 )
 
-api_transactions_bp = Blueprint('api_transactions', __name__)
+api_transactions_bp = Blueprint('api_transactions', __name__, url_prefix='/api/transactions')
 
 # --- GET TRANSACTIONS (ALL) ---
-@api_transactions_bp.route('/api/transactions')
+@api_transactions_bp.route('', methods=['GET'])
 @login_required
 def get_transactions():
     # Get filters
@@ -34,3 +34,39 @@ def get_transactions():
         'categories': [c.to_dict() for c in categories],
         'errors': errors
     })
+
+
+# --- GET TRANSACTION (id) ---
+@api_transactions_bp.route('/<int:tx_id>', methods=['GET'])
+@login_required
+def get_transaction(tx_id):    
+    tx, categories = get_transaction_and_categories(current_user, tx_id)
+
+    if not tx:
+        return jsonify({'error': 'Transaction not found'}), 404
+
+    return jsonify({
+        'transaction': tx.to_dict(),
+        'categories': [c.to_dict() for c in categories]
+    })
+
+
+# --- POST TRANSACTION ---
+@api_transactions_bp.route('', methods=['POST'])
+@login_required
+def post_transaction():
+    pass
+
+
+# --- PATCH TRANSACTION (id) ---
+@api_transactions_bp.route('/<int:tx_id>', methods=['PATCH'])
+@login_required
+def update_transaction(tx_id):
+    pass
+
+
+# --- DELETE TRANSACTION (id) ---
+@api_transactions_bp.route('/<int:tx_id>', methods=['DELETE'])
+@login_required
+def delete_transaction(tx_id):
+    pass
