@@ -55,18 +55,37 @@ def get_transaction(tx_id):
 @api_transactions_bp.route('', methods=['POST'])
 @login_required
 def post_transaction():
-    pass
+    data = request.get_json()
+
+    success, errors = add_transaction_for_user(current_user, data)
+
+    if not success:
+        return jsonify({'errors': errors}), 400
+    
+    return jsonify({'message': 'Transaction added succesfully.'}), 201
 
 
 # --- PATCH TRANSACTION (id) ---
 @api_transactions_bp.route('/<int:tx_id>', methods=['PATCH'])
 @login_required
 def update_transaction(tx_id):
-    pass
+    data = request.get_json()
+
+    success, errors = edit_transaction_for_user(current_user, tx_id, data)
+
+    if not success:
+        return jsonify({'errors': errors}), 400
+    
+    return jsonify({'message': 'Transaction updated successfully.'}), 200
 
 
 # --- DELETE TRANSACTION (id) ---
 @api_transactions_bp.route('/<int:tx_id>', methods=['DELETE'])
 @login_required
 def delete_transaction(tx_id):
-    pass
+    success = delete_transaction_by_id(current_user, tx_id)
+
+    if not success:
+        return jsonify({'message': 'Transaction not found or allowed.'}), 404
+    
+    return jsonify({'message': 'Transaction deleted successfully.'}), 200

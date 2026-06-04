@@ -17,3 +17,14 @@ def test_get_transaction(authenticated_client, test_tx_for_test_user):
 
     assert 'transaction' in data
     assert 'categories' in data
+    assert data['transaction']['id'] == tx_id
+
+def test_get_transaction_not_found(authenticated_client):
+    tx_id = 9999
+
+    response = authenticated_client.get(f'/api/transactions/{tx_id}')
+
+    assert response.status_code == 404
+    data = response.get_json()
+
+    assert 'error' in data
