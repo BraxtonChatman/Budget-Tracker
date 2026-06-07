@@ -28,3 +28,36 @@ def test_get_transaction_not_found(authenticated_client):
     data = response.get_json()
 
     assert 'error' in data
+
+def test_post_transaction(authenticated_client, test_category):
+    sample_data = {
+        "date": "2026-03-08",
+        "category": str(test_category.id),
+        "description": "Test transaction",
+        "amount": "108.29",
+        "type": "Income"
+    }
+
+    response = authenticated_client.post(
+        "/api/transactions",
+        json = sample_data
+    )
+
+    assert response.status_code == 201
+    data = response.get_json()
+    assert "message" in data
+
+def test_post_transaction_failure():
+    pass
+
+def test_patch_transaction():
+    pass
+
+def test_patch_transaction_failure():
+    pass
+
+def test_delete_transaction():
+    pass
+
+def test_delete_transaction_failure():
+    pass
