@@ -58,11 +58,11 @@ def get_transaction_dashboard_data(user, category_filter=None, sort_by=None, sta
 def add_transaction_for_user(user, form):
     """
     Validates the form and creates a transaction for the given user.
-    Returns (success: bool, errors: list[str])
+    Returns (success: bool, errors: list[str], new_tx: Transaction)
     """
     errors, date, category, description, amount, type = validate_transaction_form(form)
     if errors:
-        return False, errors
+        return False, errors, None
 
     new_transaction = Transaction(
         date=date, 
@@ -74,20 +74,20 @@ def add_transaction_for_user(user, form):
     )
     db.session.add(new_transaction)
     db.session.commit()
-    return True, []
+    return True, [], new_transaction
 
 def edit_transaction_for_user(user, tx_id, form):
     """
     Validates the form and edits a transaction for the given user.
-    Returns (success: bool, errors: list[str])
+    Returns (success: bool, errors: list[str], new_tx: Transaction)
     """
     tx = Transaction.query.filter_by(id=tx_id, user_id=user.id).first()
     if not tx:
-        return False, ["Transaction not found."]
+        return False, ["Transaction not found."], None
     
     errors, date, category, description, amount, type = validate_transaction_form(form)
     if errors:
-        return False, errors
+        return False, errors, None
 
     tx.date = date
     tx.category_id = category.id
@@ -96,7 +96,7 @@ def edit_transaction_for_user(user, tx_id, form):
     tx.type = type
     
     db.session.commit()
-    return True, []
+    return True, [], tx
     
 def get_transaction_and_categories(user, tx_id):
     """

@@ -136,37 +136,41 @@ def test_get_dashboard_success(test_user, test_tx_for_test_user, test_category):
     assert totals['expense'] == Decimal('25.50')
 
 def test_add_transaction_fail(test_user, invalid_form):
-    success, errors = add_transaction_for_user(test_user, invalid_form)
+    success, errors, tx = add_transaction_for_user(test_user, invalid_form)
 
     assert success is False
     assert "Invalid date format." in errors
+    assert tx is None
 
 def test_add_transaction_success(test_user, test_form):
-    success, errors = add_transaction_for_user(test_user, test_form)
+    success, errors, tx = add_transaction_for_user(test_user, test_form)
 
     assert success is True
     assert errors == []
 
 def test_edit_transaction_no_tx(test_user, test_form):
-    success, errors = edit_transaction_for_user(test_user, 9999, test_form)
+    success, errors, tx = edit_transaction_for_user(test_user, 9999, test_form)
 
     assert success is False
     assert "Transaction not found." in errors
+    assert tx is None
 
 def test_edit_transaction_invalid_form(test_user, test_tx_for_test_user, invalid_form):
-    success, errors = edit_transaction_for_user(test_user, test_tx_for_test_user.id, invalid_form)
+    success, errors, tx = edit_transaction_for_user(test_user, test_tx_for_test_user.id, invalid_form)
 
     assert success is False
     assert errors != []
+    assert tx is None
 
 def test_edit_transaction_user_boundary(another_user, test_form, test_tx_for_test_user):
-    success, errors = edit_transaction_for_user(another_user, test_tx_for_test_user.id, test_form)
+    success, errors, tx = edit_transaction_for_user(another_user, test_tx_for_test_user.id, test_form)
 
     assert success is False
     assert "Transaction not found." in errors
+    assert tx is None
     
 def test_edit_transaction_success(test_user, test_tx_for_test_user, test_form):
-    success, errors = edit_transaction_for_user(test_user, test_tx_for_test_user.id, test_form)
+    success, errors, tx = edit_transaction_for_user(test_user, test_tx_for_test_user.id, test_form)
 
     assert success is True
     assert errors == []

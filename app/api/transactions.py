@@ -43,7 +43,7 @@ def get_transaction(tx_id):
     tx, categories = get_transaction_and_categories(current_user, tx_id)
 
     if not tx:
-        return jsonify({'error': 'Transaction not found'}), 404
+        return jsonify({'errors': ['Transaction not found']}), 404
 
     return jsonify({
         'transaction': tx.to_dict(),
@@ -57,12 +57,12 @@ def get_transaction(tx_id):
 def post_transaction():
     data = request.get_json()
 
-    success, errors = add_transaction_for_user(current_user, data)
+    success, errors, tx = add_transaction_for_user(current_user, data)
 
     if not success:
         return jsonify({'errors': errors}), 400
     
-    return jsonify({'message': 'Transaction added succesfully.'}), 201
+    return jsonify({'id': tx.id, 'message': 'Transaction added succesfully.'}), 201
 
 
 # --- PATCH TRANSACTION (id) ---
@@ -71,12 +71,14 @@ def post_transaction():
 def update_transaction(tx_id):
     data = request.get_json()
 
-    success, errors = edit_transaction_for_user(current_user, tx_id, data)
+    success, errors, tx = edit_transaction_for_user(current_user, tx_id, data)
 
     if not success:
+        if "Transaction not found." in errors:
+            return jsonify({'errors': errors}), 404
         return jsonify({'errors': errors}), 400
     
-    return jsonify({'message': 'Transaction updated successfully.'}), 200
+    return jsonify({'id': tx.id, 'message': 'Transaction updated successfully.'}), 200
 
 
 # --- DELETE TRANSACTION (id) ---
@@ -86,6 +88,6 @@ def delete_transaction(tx_id):
     success = delete_transaction_by_id(current_user, tx_id)
 
     if not success:
-        return jsonify({'message': 'Transaction not found or allowed.'}), 404
+        return jsonify({'errors': ['Transaction not found or allowed.']}), 404
     
     return jsonify({'message': 'Transaction deleted successfully.'}), 200

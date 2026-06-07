@@ -16,6 +16,9 @@
 - [ ] Add CSRF protection (Flask-WTF or manual token)
 - [ ] Improve password validation rules
 
+## Fixes
+- [ ] Create partial validation option in form validator to allow patch partial data
+
 ---
 
 # UI / UX Improvements

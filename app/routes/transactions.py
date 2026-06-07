@@ -41,7 +41,7 @@ def index():
 @transactions_bp.route('/add', methods=['POST'])
 @login_required
 def add_transaction():
-    success, errors = add_transaction_for_user(current_user, request.form)
+    success, errors, tx = add_transaction_for_user(current_user, request.form)
     if not success:
         for e in errors:
             flash(e, 'error')
@@ -57,7 +57,7 @@ def edit_transaction(tx_id):
     category_filter = request.args.get('category')
 
     if request.method == 'POST':
-        success, errors = edit_transaction_for_user(current_user, tx_id, request.form)
+        success, errors, tx = edit_transaction_for_user(current_user, tx_id, request.form)
         
         if not success:
             for e in errors:
