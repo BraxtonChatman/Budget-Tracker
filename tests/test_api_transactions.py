@@ -47,11 +47,43 @@ def test_post_transaction(authenticated_client, test_category):
     data = response.get_json()
     assert "message" in data
 
-def test_post_transaction_failure():
-    pass
+def test_post_transaction_failure(authenticated_client, test_category):
+    sample_data = {
+        "date": "2026-03-08",
+        "category": str(test_category.id),
+        "description": "Test transaction",
+        "amount": "-108.29",
+        "type": "Income"
+    }
 
-def test_patch_transaction():
-    pass
+    response = authenticated_client.post(
+        "/api/transactions",
+        json = sample_data
+    )
+
+    assert response.status_code == 400
+    data = response.get_json()
+    assert data['errors'] == ["Amount must be greater than zero."]
+
+def test_patch_transaction(authenticated_client, test_tx_for_test_user, test_category):
+    tx_id = test_tx_for_test_user.id
+    
+    sample_data = {
+        "date": "2026-03-08",
+        "category": str(test_category.id),
+        "description": "Test transaction",
+        "amount": "108.29",
+        "type": "Income"
+    }
+
+    response = authenticated_client.patch(
+        f"/api/transactions/{tx_id}",
+        json = sample_data
+    )
+
+    assert response.status_code == 200
+    data = response.get_json()
+    assert 'message' in data
 
 def test_patch_transaction_failure():
     pass
