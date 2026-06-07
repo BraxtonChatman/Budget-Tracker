@@ -3,19 +3,20 @@ from app.models import User
 from app.extensions import db
 
 def test_register_account_success(app):
-    success, errors = register_account('alice', 'password123')
+    success, errors, user = register_account('alice', 'password123')
 
     assert success is True
     assert errors == []
 
     user = User.query.filter_by(username='alice').first()
-    assert user is not None
+    assert user == user
 
 def test_register_account_duplicate_username(app, test_user):
-    success, errors = register_account('testuser', 'password')
+    success, errors, user = register_account('testuser', 'password')
 
     assert success is False
     assert 'Username already exists' in errors
+    assert user is None
 
 def test_authenticate_user_no_username(app, test_user):
     user, errors = authenticate_user('', 'password')

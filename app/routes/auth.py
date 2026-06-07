@@ -11,7 +11,7 @@ def register():
         username = request.form.get('username', '').strip()
         password = request.form.get('password', '')
 
-        success, errors = register_account(username, password)
+        success, errors, user = register_account(username, password)
         if not success:
             for e in errors:
                 flash(e, 'error')

@@ -8,7 +8,7 @@ def register_account(username, password):
     username = username.strip()
     if User.query.filter_by(username=username).first():
             errors.append("Username already exists")
-            return False, errors
+            return False, errors, None
         
     user = User(username=username)
     user.set_password(password)
@@ -16,7 +16,7 @@ def register_account(username, password):
     db.session.add(user)
     db.session.commit()
 
-    return True, errors
+    return True, errors, user
 
 def authenticate_user(username, password):
     errors = []

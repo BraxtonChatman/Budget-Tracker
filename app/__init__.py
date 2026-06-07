@@ -5,6 +5,7 @@ from .models import User, Category
 from .routes.auth import auth_bp
 from .routes.transactions import transactions_bp
 from .api.transactions import api_transactions_bp
+from .api.auth import api_auth_bp
 from .filters import format_currency
 from .config import DevConfig, ProdConfig, TestConfig
 
@@ -43,6 +44,7 @@ def create_app(config_name = None):
     app.register_blueprint(transactions_bp)
 
     app.register_blueprint(api_transactions_bp)
+    app.register_blueprint(api_auth_bp)
 
     # filters
     app.add_template_filter(format_currency)
