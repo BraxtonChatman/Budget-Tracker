@@ -52,4 +52,4 @@ def test_me_fail(client):
     response = client.get('/api/auth/me')
     assert response.status_code == 401
     data = response.get_json()
-    assert data['is_authenticated'] == False
+    assert 'errors' in data

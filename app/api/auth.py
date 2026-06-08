@@ -48,7 +48,10 @@ def logout():
 
 # --- ME ---
 @api_auth_bp.route('/me', methods=['GET'])
+@login_required
 def me():
-    if not current_user.is_authenticated:
-        return jsonify({'is_authenticated': False}), 401
-    return jsonify({'id': current_user.id, 'username': current_user.username, 'is_authenticated': True}), 200
+    return jsonify({
+        'id': current_user.id,
+        'username': current_user.username,
+        'is_authenticated': True
+    }), 200 
