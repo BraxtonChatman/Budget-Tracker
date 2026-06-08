@@ -9,7 +9,6 @@ def test_register(client):
     assert data['message'] == 'Account created successfully.'
     assert data['user']['username'] == 'TestUsername'
 
-
 def test_register_fail(test_user, client):
     username = test_user.username
     response = client.post('/api/auth/register', json={'username': username, 'password': 'TestPassword'})

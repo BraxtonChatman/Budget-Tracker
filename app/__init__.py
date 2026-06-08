@@ -1,5 +1,5 @@
 import os
-from flask import Flask
+from flask import Flask, jsonify
 from .extensions import db, login_manager
 from .models import User, Category
 from .routes.auth import auth_bp
@@ -38,6 +38,11 @@ def create_app(config_name = None):
     @login_manager.user_loader
     def load_user(user_id):
         return db.session.get(User, int(user_id))
+    
+    # Unauthorized login handler
+    @login_manager.unauthorized_handler
+    def unauthorized():
+        return jsonify({"errors": ["Unauthorized"]}), 401
     
     # register blueprints
     app.register_blueprint(auth_bp)
