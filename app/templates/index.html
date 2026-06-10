@@ -101,7 +101,11 @@
                         <td class="amount income">{{ t.amount|format_currency if t.type.value == 'Income' else '' }}</td>
                         <td class="amount expense">{{ t.amount|format_currency if t.type.value == 'Expense' else '' }}</td>
                         <td>
-                            <a href="{{ url_for('transactions.edit_transaction', tx_id=t.id, category=current_filter) }}" class="form-button edit-button">Edit</a>
+                            <button 
+                                class="form-button edit-button js-edit-transaction" 
+                                data-transaction-id="{{ t.id }}">
+                                Edit
+                            </button>
                             <button
                                 type="button"
                                 class="form-button delete-button js-delete-transaction"
@@ -131,6 +135,31 @@
             <p>No transactions found.</p>
         {% endif %}
     </div>
+
+    <!-- Edit modal -->
+     <div id="edit-modal" class="modal-hidden">
+        <div class="modal-content">
+            <h2>Edit Transactions</h2>
+            <input type="date" id="edit-date" class="form-input">
+            <select id="edit-category" class="form-input">
+                {% for c in categories %}
+                    <option value="{{ c.id }}">{{ c.name }}</option>
+                {% endfor %}
+            </select>
+            <input type="text" id="edit-description" class="form-input">
+            <input type="number" id="edit-amount" step="0.01" class="form-input">
+            <select id="edit-type" class="form-input">
+                <option value="Expense">Expense</option>
+                <option value="Income">Income</option>
+            </select>
+
+            <input type="hidden" id="edit-id">
+            <div style="margin-top: 10px;">
+                <button id="save-edit" class="form-button add-button">Save</button>
+                <button id="cancel-edit" class="form-button delete-button">Cancel</button>
+            </div>
+        </div>
+     </div>
 
     <script src="{{ url_for('static', filename='js/transactions.js') }}"></script>
 </body>

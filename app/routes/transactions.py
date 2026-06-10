@@ -49,23 +49,3 @@ def add_transaction():
         flash("Transaction added successfully.", 'success')
     return redirect(url_for('transactions.index', category=request.args.get('category')))
 
-
-# --- EDIT TRANSACTION ---
-@transactions_bp.route('/edit/<int:tx_id>', methods=['GET', 'POST'])
-@login_required
-def edit_transaction(tx_id):
-    category_filter = request.args.get('category')
-
-    if request.method == 'POST':
-        success, errors, tx = edit_transaction_for_user(current_user, tx_id, request.form)
-        
-        if not success:
-            for e in errors:
-                flash(e, 'error')
-        else:
-            flash("Transaction updated successfully.", 'success')
-        return redirect(url_for('transactions.index', category=category_filter))
-    
-    tx, categories = get_transaction_and_categories(current_user, tx_id)
-    return render_template('edit.html', transaction=tx, categories=categories)
-
