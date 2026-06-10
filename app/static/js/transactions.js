@@ -1,49 +1,47 @@
 
-document.addEventListener("DOMContentLoaded", async () => {
+
+document.addEventListener("DOMContentLoaded", init);
+
+async function init() {
+    setupEventListeners();
     await refreshTransactions();
-});
+}
 
-
-document.addEventListener("DOMContentLoaded", () => {
+function setupEventListeners() {
     const tbody = document.querySelector("tbody");
+    tbody.addEventListener("click", handleDeleteClick);
+}
 
-    tbody.addEventListener("click", async (event) => {
-        const button = event.target.closest(".js-delete-transaction");
+async function handleDeleteClick(event) {
+    const button = event.target.closest(".js-delete-transaction");
+    if(!button) return;
 
-        if (!button) {
+    const txId = button.dataset.transactionId;
+    const confirmed = confirm("Are you sure you want to delete this transaction?");
+    if(!confirmed) return;
+
+    try{
+        const response = await fetch(`/api/transactions/${txId}`, {method: "DELETE"});
+        let data;
+
+        try{
+            data = await response.json();
+        } catch {
+            alert("Invalid server response");
+            return
+        }
+
+        if(!response.ok) {
+            alert(data.errors?.join(", ") || "Delete failed");
             return;
         }
+        await refreshTransactions();
 
-        const txId = button.dataset.transactionId;
-
-        const confirmed = confirm(
-            "Are you sure you want to delete this transaction?"
-        );
-
-        if (!confirmed) {
-            return;
-        }
-
-        try {
-            const response = await fetch(`/api/transactions/${txId}`, {
-                method: "DELETE"
-            });
-
-            const data = await response.json();
-
-            if (!response.ok) {
-                alert(data.errors?.join(", ") || "Delete failed");
-                return;
-            }
-
-            await refreshTransactions();
-        }
-        catch (error) {
-            console.error(error);
-            alert("An unexpected error occurred.");
-        }
-    });
-});
+    } catch(err) {
+        console.error(err);
+        alert("An unexpected error occurred.");
+    }
+}
 
 function renderTransactions(transactions) {
     const tbody = document.querySelector("tbody");
