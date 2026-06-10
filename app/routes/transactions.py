@@ -69,10 +69,3 @@ def edit_transaction(tx_id):
     tx, categories = get_transaction_and_categories(current_user, tx_id)
     return render_template('edit.html', transaction=tx, categories=categories)
 
-
-# --- DELETE TRANSACTION ---
-@transactions_bp.route('/delete/<int:tx_id>', methods=['POST'])
-@login_required
-def delete_transaction(tx_id):
-    delete_transaction_by_id(current_user, tx_id)
-    return redirect(url_for('transactions.index', category=request.args.get('category')))

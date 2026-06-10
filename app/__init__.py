@@ -1,5 +1,5 @@
 import os
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request, redirect
 from .extensions import db, login_manager
 from .models import User, Category
 from .routes.auth import auth_bp
@@ -42,7 +42,9 @@ def create_app(config_name = None):
     # Unauthorized login handler
     @login_manager.unauthorized_handler
     def unauthorized():
-        return jsonify({"errors": ["Unauthorized"]}), 401
+        if request.path.startswith("/api"):
+            return jsonify({"errors": ["Unauthorized"]}), 401
+        return redirect('/login')
     
     # register blueprints
     app.register_blueprint(auth_bp)

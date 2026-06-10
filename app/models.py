@@ -36,6 +36,7 @@ class Transaction(db.Model):
             "id": self.id,
             "date": self.date.isoformat() if self.date else None,
             "category_id": self.category_id,
+            "category_name": self.category.name,
             "user_id": self.user_id,
             "description": self.description,
             "amount": float(self.amount),

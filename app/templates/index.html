@@ -25,9 +25,12 @@
 
     <h2>Totals</h2>
     <p>
-        Income: <strong>{{ total_income|format_currency }}</strong> |
+        Income: <strong id="total-income"></strong> |
+        Expense: <strong id="total-expense"></strong> |
+        Net Total: <strong id="net-total"></strong>
+        <!-- Income: <strong>{{ total_income|format_currency }}</strong> |
         Expense: <strong>{{ total_expense|format_currency }}</strong> |
-        Net Total: <strong>{{ net_total|format_currency(show_sign=True) }}</strong>
+        Net Total: <strong>{{ net_total|format_currency(show_sign=True) }}</strong> -->
     </p>
 
     <h2>Add Transaction</h2>
@@ -91,7 +94,7 @@
                 </thead>
                 <tbody>
                     {% for t in transactions %}
-                    <tr>
+                    <tr data-transaction-id="{{ t.id }}">
                         <td>{{ t.date.strftime('%Y-%m-%d') }}</td>
                         <td>{{ t.category.name }}</td>
                         <td>{{ t.description }}</td>
@@ -99,15 +102,12 @@
                         <td class="amount expense">{{ t.amount|format_currency if t.type.value == 'Expense' else '' }}</td>
                         <td>
                             <a href="{{ url_for('transactions.edit_transaction', tx_id=t.id, category=current_filter) }}" class="form-button edit-button">Edit</a>
-                            <form method="POST" action="{{ url_for('transactions.delete_transaction', tx_id=t.id, category=current_filter) }}" style="display:inline;" onsubmit="return confirmDelete();">
-                                <button type="submit" class="form-button delete-button">Delete</button>
-                            </form>
-
-                            <script>
-                                function confirmDelete() {
-                                    return confirm("Are you sure you want to delete this transaction? This action cannot be undone.");
-                                }
-                            </script>
+                            <button
+                                type="button"
+                                class="form-button delete-button js-delete-transaction"
+                                data-transaction-id="{{ t.id }}">
+                                Delete
+                            </button>
                         </td>
                     </tr>
                     {% endfor %}
@@ -131,5 +131,7 @@
             <p>No transactions found.</p>
         {% endif %}
     </div>
+
+    <script src="{{ url_for('static', filename='js/transactions.js') }}"></script>
 </body>
 </html>
