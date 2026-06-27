@@ -3,7 +3,7 @@ from flask import Flask, jsonify, request, redirect
 from .extensions import db, login_manager
 from .models import User, Category
 from .routes.auth import auth_bp
-from .routes.transactions import transactions_bp
+from .routes.pages import pages_bp
 from .api.transactions import api_transactions_bp
 from .api.auth import api_auth_bp
 from .filters import format_currency
@@ -47,8 +47,9 @@ def create_app(config_name = None):
         return redirect('/login')
     
     # register blueprints
+    app.register_blueprint(pages_bp)
+
     app.register_blueprint(auth_bp)
-    app.register_blueprint(transactions_bp)
 
     app.register_blueprint(api_transactions_bp)
     app.register_blueprint(api_auth_bp)

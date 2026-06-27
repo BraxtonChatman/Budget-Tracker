@@ -23,16 +23,15 @@
         {% endif %}
     {% endwith %}
 
+    <!-- Totals Headers -->
     <h2>Totals</h2>
     <p>
         Income: <strong id="total-income"></strong> |
         Expense: <strong id="total-expense"></strong> |
         Net Total: <strong id="net-total"></strong>
-        <!-- Income: <strong>{{ total_income|format_currency }}</strong> |
-        Expense: <strong>{{ total_expense|format_currency }}</strong> |
-        Net Total: <strong>{{ net_total|format_currency(show_sign=True) }}</strong> -->
     </p>
 
+    <!-- Add Transaction -->
     <h2>Add Transaction</h2>
     <div class="form-container">
         <form id="add-transaction-form">    
@@ -51,8 +50,9 @@
             <button type="submit" class="form-button add-button">Add Transaction</button>
         </form>
     </div>
-    
+
     <h2>Transactions</h2>
+    <!-- Transaction Filtering & Sorting -->
     <form method="GET" action="/">
         <label for="category">Category:</label>
         <select name="category" id="category">
@@ -79,61 +79,22 @@
     </form>
     <br>
 
+    <!-- Transaction Table -->
     <div class="transaction-container">
-        {% if transactions %}
-            <table class="transaction-table">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Category</th>
-                        <th>Description</th>
-                        <th>Income</th>
-                        <th>Expense</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for t in transactions %}
-                    <tr data-transaction-id="{{ t.id }}">
-                        <td>{{ t.date.strftime('%Y-%m-%d') }}</td>
-                        <td>{{ t.category.name }}</td>
-                        <td>{{ t.description }}</td>
-                        <td class="amount income">{{ t.amount|format_currency if t.type.value == 'Income' else '' }}</td>
-                        <td class="amount expense">{{ t.amount|format_currency if t.type.value == 'Expense' else '' }}</td>
-                        <td>
-                            <button 
-                                class="form-button edit-button js-edit-transaction" 
-                                data-transaction-id="{{ t.id }}">
-                                Edit
-                            </button>
-                            <button
-                                type="button"
-                                class="form-button delete-button js-delete-transaction"
-                                data-transaction-id="{{ t.id }}">
-                                Delete
-                            </button>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-                <tfoot>
-                    <tr class="net-row">
-                        <td colspan="3" style="text-align:left;"><strong>Net Total:</strong></td>
-                        {% if net_total >= 0 %}
-                            <td><strong>{{ net_total|format_currency }}</strong></td>
-                            <td></td>  
-                        {% else %}
-                            <td></td>  
-                            <td><strong>{{ net_total|format_currency(show_sign=True) }}</strong></td>
-                        {% endif %}
+        <table class="transaction-table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Category</th>
+                    <th>Description</th>
+                    <th>Income</th>
+                    <th>Expense</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
 
-                        <td></td>
-                    </tr>
-                </tfoot>
-            </table>
-        {% else %}
-            <p>No transactions found.</p>
-        {% endif %}
+            <tbody></tbody>
+        </table>
     </div>
 
     <!-- Edit modal -->
