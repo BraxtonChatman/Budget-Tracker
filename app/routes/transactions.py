@@ -37,15 +37,3 @@ def index():
     )
 
 
-# --- ADD TRANSACTION ---
-@transactions_bp.route('/add', methods=['POST'])
-@login_required
-def add_transaction():
-    success, errors, tx = add_transaction_for_user(current_user, request.form)
-    if not success:
-        for e in errors:
-            flash(e, 'error')
-    else:
-        flash("Transaction added successfully.", 'success')
-    return redirect(url_for('transactions.index', category=request.args.get('category')))
-

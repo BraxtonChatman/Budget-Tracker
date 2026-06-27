@@ -1,5 +1,5 @@
 
-// ask about these
+// Edit constants 
 const modal = document.getElementById("edit-modal");
 const editId = document.getElementById("edit-id");
 const editDate = document.getElementById("edit-date");
@@ -7,6 +7,14 @@ const editCategory = document.getElementById("edit-category");
 const editDescription = document.getElementById("edit-description");
 const editAmount = document.getElementById("edit-amount");
 const editType = document.getElementById("edit-type");
+
+// add constants
+const addForm = document.getElementById("add-transaction-form");
+const addDate = document.getElementById("add-date");
+const addCategory = document.getElementById("add-category");
+const addDescription = document.getElementById("add-description");
+const addAmount = document.getElementById("add-amount");
+const addType = document.getElementById("add-type");
 
 document.addEventListener("DOMContentLoaded", init);
 
@@ -18,6 +26,8 @@ async function init() {
 function setupEventListeners() {
     const tbody = document.querySelector("tbody");
     tbody.addEventListener("click", handleTableClick);
+
+    addForm.addEventListener("submit", handleAdd);
 }
 
 async function handleTableClick(event) {
@@ -27,33 +37,43 @@ async function handleTableClick(event) {
     const editButton = event.target.closest(".js-edit-transaction");
     if(editButton) return handleEdit(editButton);
 
-    // if(!deleteButton) return;
+}
 
-    // const txId = deleteButton.dataset.transactionId;
-    // const confirmed = confirm("Are you sure you want to delete this transaction?");
-    // if(!confirmed) return;
+async function handleAdd(event) {
+    event.preventDefault();
 
-    // try{
-    //     const response = await fetch(`/api/transactions/${txId}`, {method: "DELETE"});
-    //     let data;
+    const payload = {
+        date: addDate.value,
+        category: addCategory.value,
+        description: addDescription.value,
+        amount: addAmount.value,
+        type: addType.value
+    };
 
-    //     try{
-    //         data = await response.json();
-    //     } catch {
-    //         alert("Invalid server response");
-    //         return
-    //     }
+    try {
+        const response = await fetch("/api/transactions", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+        });
 
-    //     if(!response.ok) {
-    //         alert(data.errors?.join(", ") || "Delete failed");
-    //         return;
-    //     }
-    //     await refreshTransactions();
+        const data = await response.json();
 
-    // } catch(err) {
-    //     console.error(err);
-    //     alert("An unexpected error occurred.");
-    // }
+        if(!response.ok) {
+            alert(data.errors?.join(", ") || "Failed to add transaction.");
+            return;
+        }
+
+        addForm.reset();
+
+        await refreshTransactions();
+
+    } catch(err) {
+        console.error(err);
+        alert("Unexpected error occurred.");
+    }
 }
 
 async function handleDelete(deleteButton){
@@ -167,16 +187,6 @@ document.getElementById("save-edit").addEventListener("click", async () => {
         alert("Unexpected error occurred.");
     }
 });
-
-
-// async function handleEditClick(event) {
-//     const button = event.target.closest(".js-edit-transaction");
-//     if(!button) return;
-
-//     const txId = button.dataset.transactionId;
-
-
-// }
 
 function renderTransactions(transactions) {
     const tbody = document.querySelector("tbody");
