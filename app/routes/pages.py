@@ -5,7 +5,6 @@ from app.models import Category
 pages_bp = Blueprint("pages", __name__)
 
 @pages_bp.route("/")
-@login_required
 def index():
     categories = Category.query.all()
 

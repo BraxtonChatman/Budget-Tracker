@@ -33,7 +33,6 @@ def login():
         return jsonify({'errors': errors}), 401
     
     login_user(user)
-    # return jsonify({'user_id': user.id, 'message': 'User logged in successfully.'}), 200
     return jsonify({
         'message': 'User logged in successfully.',
         'user': {'id': user.id, 'username': user.username}
