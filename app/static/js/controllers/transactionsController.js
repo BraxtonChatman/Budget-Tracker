@@ -58,9 +58,7 @@ function wireEvents(dom) {
     dom.cancelEditBtn.onclick = () => {
         closeModal(dom);
     };
-    // dom.addEventListener("keydown", (e) => {
-    //     if (e.key === "Escape") closeModal(dom);
-    // });
+
     dom.modal.addEventListener("click", (e) => {
         if (e.target === dom.modal) {
             closeModal(dom);
@@ -231,13 +229,17 @@ function renderTotals(dom, totals) {
 function renderCategories(dom, categories) {
     populateCategorySelect(dom.addCategory, categories);
     populateCategorySelect(dom.editCategory, categories);
-    populateCategorySelect(dom.filterCategory, categories);
+    populateCategorySelect(dom.filterCategory, categories, true);
 
     dom.filterCategory.value = "";
 }
 
-function populateCategorySelect(select, categories) {
+function populateCategorySelect(select, categories, includeAll = false) {
     select.innerHTML = "";
+
+    if (includeAll) {
+        select.appendChild(new Option("All", ""));
+    }
 
     categories.forEach(category => {
         select.appendChild(new Option(category.name, category.id));
