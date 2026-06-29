@@ -44,8 +44,8 @@ function onLoginSuccess(user){
     showDashboard(user);
 }
 
-function onRegisterSuccess(user) {
-    showDashboard(user);
+function onRegisterSuccess() {
+    showLogin();
 }
 
 function onLogout() {
