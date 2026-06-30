@@ -6,7 +6,13 @@ import {
     deleteTransaction
 } from "../api/transactions.js";
 
+let cahcedCategories = [];
+let editModalInstance = null;
+
 export async function initTransactions() {
+    cahcedCategories = [];
+    editModalInstance = null;
+
     const dom = cacheDOM();
     wireEvents(dom);
     await loadCategories(dom);
@@ -49,21 +55,22 @@ function cacheDOM() {
     };
 }
 
-let cahcedCategories = [];
-
 function wireEvents(dom) {
     dom.tbody.addEventListener("click", (e) => handleTableClick(e, dom));
     dom.addForm.addEventListener("submit", (e) => handleAdd(e, dom));
 
-    dom.cancelEditBtn.onclick = () => {
-        closeModal(dom);
-    };
+    // dom.cancelEditBtn.onclick = () => {
+    //     closeModal();
+    // };
 
-    dom.modal.addEventListener("click", (e) => {
-        if (e.target === dom.modal) {
-            closeModal(dom);
-        }
-    });
+    dom.modal.addEventListener("hidden.bs.modal", () => {
+        dom.editId.value = "";
+        dom.editDate.value = "";
+        dom.editCategory.value = "";
+        dom.editDescription.value = "";
+        dom.editAmount.value = "";
+        dom.editType.value = "Expense";
+    })
 
     dom.saveEditBtn.onclick = () => {
         handleSave(dom);
@@ -165,7 +172,10 @@ async function handleEdit(txId, dom) {
         dom.editAmount.value = tx.amount;
         dom.editType.value = tx.type;
 
-        dom.modal.classList.remove("hidden");
+        if (!editModalInstance) {
+            editModalInstance = new bootstrap.Modal(dom.modal);
+        }
+        editModalInstance.show();
 
     } catch (err) {
         alert(err.message);
@@ -186,7 +196,7 @@ async function handleSave(dom) {
 
     try {
         await updateTransaction(txId, payload);
-        dom.modal.classList.add("hidden");
+        closeModal();
         await loadTransactions(dom);
 
     } catch(err) {
@@ -194,8 +204,10 @@ async function handleSave(dom) {
     }
 }
 
-function closeModal(dom) {
-    dom.modal.classList.add("hidden");
+function closeModal() {
+    if (editModalInstance) {
+        editModalInstance.hide();
+    }
 }
 
 function renderTransactions(dom, transactions) {

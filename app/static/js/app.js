@@ -1,7 +1,7 @@
 import { getMe } from "./api/auth.js";
 import { showRegisterView } from "./views/registerView.js";
 import { showLoginView } from "./views/loginView.js";
-import { showDashboardView } from "./views/dashboardView.js";
+import { showDashboardView } from "./views/dashboardView2.js";
 
 document.addEventListener("DOMContentLoaded", init);
 
