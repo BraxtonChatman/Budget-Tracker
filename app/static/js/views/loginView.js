@@ -4,15 +4,38 @@ export function showLoginView(onSuccess, onSwitchToRegister) {
     const app = document.getElementById("app");
 
     app.innerHTML = `
-        <h2>Login</h2>
+        <div class="container py-5">
+            <div class="card p-4 mx-auto" style="max-width: 400px;">
+                <h2 class="h3 text-center mb-4">Login</h2>
 
-        <input id="username" placeholder="Username" />
-        <input id="password" type="password" placeholder="Password" />
+                <div class="mb-3">
+                    <input 
+                        id="username" 
+                        class="form-control"
+                        placeholder="Username" 
+                    />
+                </div>
 
-        <button id="loginBtn">Login</button>
-        <button id="goToRegisterBtn">Register</button>
+                <div class="mb-3">
+                    <input 
+                        id="password" 
+                        type="password" 
+                        class="form-control"
+                        placeholder="Password" 
+                    />
+                </div>
 
-        <p id="error"></p>
+                <button id="loginBtn" class="btn btn-primary w-100 mb-2">
+                    Login
+                </button>
+
+                <button id="goToRegisterBtn" class="btn btn-outline-secondary w-100">
+                    Register
+                </button>
+
+                <p id="error" class="text-danger mt-3"></p>
+            </div>
+        </div>
     `;
 
     document.getElementById("loginBtn").onclick = async () => {

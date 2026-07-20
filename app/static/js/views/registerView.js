@@ -4,15 +4,38 @@ export function showRegisterView(onSuccess, onBackToLogin) {
     const app = document.getElementById("app");
 
     app.innerHTML = `
-        <h2>Register</h2>
+        <div class="container py-5">
+            <div class="card p-4 mx-auto" style="max-width: 400px;">
+                <h2 class="h3 text-center mb-4">Register</h2>
 
-        <input id="username" placeholder="Username" />
-        <input id="password" type="password" placeholder="Password" />
+                <div class="mb-3">
+                    <input 
+                        id="username" 
+                        class="form-control"
+                        placeholder="Username" 
+                    />
+                </div>
 
-        <button id="registerBtn">Create Account</button>
-        <button id="backToLoginBtn">Back to Login</button>
+                <div class="mb-3">
+                    <input 
+                        id="password" 
+                        type="password"
+                        class="form-control"
+                        placeholder="Password" 
+                    />
+                </div>
 
-        <p id="error"></p>
+                <button id="registerBtn" class="btn btn-success w-100 mb-2">
+                    Create Account
+                </button>
+
+                <button id="backToLoginBtn" class="btn btn-outline-secondary w-100">
+                    Back to Login
+                </button>
+
+                <p id="error" class="text-danger mt-3"></p>
+            </div>
+        </div>
     `;
 
     document.getElementById("registerBtn").onclick = async () => {

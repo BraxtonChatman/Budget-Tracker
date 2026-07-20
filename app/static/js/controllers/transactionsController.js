@@ -223,8 +223,16 @@ function renderTransactions(dom, transactions) {
             <td>${t.type === "Income" ? formatCurrency(t.amount) : ""}</td>
             <td>${t.type === "Expense" ? formatCurrency(t.amount) : ""}</td>
             <td>
-                <button class="js-edit-transaction" data-transaction-id="${t.id}">Edit</button>
-                <button class="js-delete-transaction" data-transaction-id="${t.id}">Delete</button>
+                <button
+                    class="btn btn-outline-primary btn-sm me-2 js-edit-transaction" 
+                    data-transaction-id="${t.id}">
+                    Edit
+                </button>
+                <button
+                    class="btn btn-outline-danger btn-sm js-delete-transaction" 
+                    data-transaction-id="${t.id}">
+                    Delete
+                </button>
             </td>
         `;
 
